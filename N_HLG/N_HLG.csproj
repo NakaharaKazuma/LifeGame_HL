@@ -229,7 +229,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\GameSetting.cs" />
     <Compile Include="Assets\HoloToolkit\Boundary\Scripts\BoundaryManager.cs" />
     <Compile Include="Assets\HoloToolkit\Input\Scripts\Cursor\AnimatedCursor.cs" />
     <Compile Include="Assets\HoloToolkit\Input\Scripts\Cursor\AnimatorParameter.cs" />

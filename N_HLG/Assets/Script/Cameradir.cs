@@ -7,7 +7,6 @@ public class Cameradir : MonoBehaviour
 {
 
     private const float CELL_SIZE = 0.025f;
-
     public int gridSize = 108;
 
     // Use this for initialization
@@ -35,7 +34,7 @@ public class Cameradir : MonoBehaviour
         float zPos = ((gridSize + (float)0.5) * CELL_SIZE) / 2;
         center = new Vector3(xPos, yPos, zPos);
 
-        Vector3 dir = center - cp;
+        //Vector3 dir = center - cp;
 
         float max = Math.Abs(cd.x);
         if (max < Math.Abs(cd.y))

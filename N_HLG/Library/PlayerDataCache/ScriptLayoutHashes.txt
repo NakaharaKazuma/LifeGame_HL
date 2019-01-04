@@ -68,8 +68,6 @@ b1016a17ddc34ceb36bf9210e54d21fc Assembly-CSharp.dll:HoloToolkit.Unity.SharingWi
 24734ba880e757a7b58b0338c4ac0fb0 Assembly-CSharp.dll:.Cameradir
 a33037253cd01a5bfd05db4cf8688db5 Assembly-CSharp.dll:HoloToolkit.UI.Keyboard.AxisSlider
 28599989660887f6062e84a41562d236 Assembly-CSharp.dll:HoloToolkit.Unity.Billboard
-05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.CallbackExecutor
-05524b8f659e7bfe5756d1335fec24ba UnityEngine.Advertisements.dll:UnityEngine.Advertisements.Editor.Placeholder
 b3823de281e428cf0dba1153469ff4ab Assembly-CSharp.dll:HoloToolkit.Unity.SphereBasedTagalong
 a35dc9cca2faebc5f5f1aeb9e8e47bbe UnityEngine.UI.dll:UnityEngine.UI.AspectRatioFitter
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.UI.dll:UnityEngine.EventSystems.BaseInput
@@ -198,7 +196,7 @@ cade32f28e21a5f2370dd82c3d56c28c Assembly-CSharp.dll:HoloToolkit.Unity.SceneLaun
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:HoloToolkit.Unity.InputModule.SetGlobalListener
 39e33eeaa8482d2bae989c16b9871dff Assembly-CSharp.dll:HoloToolkit.Unity.InputModule.MeshCursor
 531fdf2c183c5453dac7ae13d94bb399 Assembly-CSharp.dll:GLTF.GLTFComponentStreamingAssets
-d7907dc060b3334d90ba42713856fb0d Assembly-CSharp.dll:.LifeGame
+a329fa3daf4e3907c9710ce988fc1d2e Assembly-CSharp.dll:.LifeGame
 fc1e0f4d8439d9928083474691511a13 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 05524b8f659e7bfe5756d1335fec24ba UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
 60b2bb652410a5867a5ab9a01cd38461 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkDiscovery

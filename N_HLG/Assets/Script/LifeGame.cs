@@ -113,7 +113,7 @@ public class LifeGame : MonoBehaviour
         InteractionManager.InteractionSourceReleased += InteractionSourceReleased;
         
         
-        rule = new int[] {4, 102, 133, 102, 142};
+        rule = new int[] {1, 2, 3, 2, 4};
 
         range = rule[0] * 2 + 1;
         bugs = new Pattern();
@@ -680,7 +680,7 @@ public class LifeGame : MonoBehaviour
                     {
                         state2[x0, y0, z0] = false;
                         able[x0, y0, z0] = false;
-                       /*
+                       
                         for (int a = x0 * range; a < (x0 + 1) * range; a++)
                         {
                             for (int b = y0 * range; b < (y0 + 1) * range; b++)
@@ -706,7 +706,7 @@ public class LifeGame : MonoBehaviour
                                             }
                                         }
                                     }
-                                    cell[a, b, c].life = state[a, b, c];/*
+                                    cell[a, b, c].life = state[a, b, c];
                                     hush[a, b, c, memory_time] = state[a, b, c];
                                     if (cell[a, b, c].life)
                                     {
@@ -714,7 +714,7 @@ public class LifeGame : MonoBehaviour
                                     }
                                 }
                             }
-                        }*/
+                        }
                     }
                 }
             }
@@ -735,11 +735,11 @@ public class LifeGame : MonoBehaviour
     private void Up(int start_x, int start_y, int start_z, int end_x, int end_y, int end_z)
     {
         int sum = 0;
-        for (int x = start_x - 4; x < start_x + (4 + 1); x++)
+        for (int x = start_x - rule[0]; x < start_x + (rule[0] + 1); x++)
         {
-            for (int y = start_y - 4; y < start_y + (4 + 1); y++)
+            for (int y = start_y - rule[0]; y < start_y + (rule[0] + 1); y++)
             {
-                for (int z = start_z - 4; z < start_z + (4 + 1); z++)
+                for (int z = start_z - rule[0]; z < start_z + (rule[0] + 1); z++)
                 {
                     if (cell[(x + gridSize) % gridSize, (y + gridSize) % gridSize, (z + gridSize) % gridSize].life)
                     {
@@ -761,34 +761,34 @@ public class LifeGame : MonoBehaviour
                         {
                             if (cell[x, y, z].life)
                             {
-                                if (sum < 102 || sum > 142)
+                                if (sum < rule[3] || sum > rule[4])
                                 {
                                     state[x, y, z] = false;
                                     //Destroy(cell[x, y, z].obj);
-                                    cell[x, y, z].life = false;
+                                    //cell[x, y, z].life = false;
                                 }
                             }
                             else
                             {
-                                if (sum >= 102 && sum <= 133)
+                                if (sum >= rule[1] && sum <= rule[2])
                                 {
                                     state[x, y, z] = true;/*
                                     cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
                                     cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;*/
-                                    cell[x, y, z].life = true;
+                                    //cell[x, y, z].life = true;
                                 }
                             }
                             if (z != end_z - 1)
                             {
-                                for (int x1 = x - 4; x1 < x + (4 + 1); x1++)
+                                for (int x1 = x - rule[0]; x1 < x + (rule[0] + 1); x1++)
                                 {
-                                    for (int y1 = y - 4; y1 < y + (4 + 1); y1++)
+                                    for (int y1 = y - rule[0]; y1 < y + (rule[0] + 1); y1++)
                                     {
-                                        if (cell[(x1 + gridSize) % gridSize, (y1 + gridSize) % gridSize, ((z - 4) + gridSize) % gridSize].life)
+                                        if (cell[(x1 + gridSize) % gridSize, (y1 + gridSize) % gridSize, ((z - rule[0]) + gridSize) % gridSize].life)
                                         {
                                             sum--;
                                         }
-                                        if (cell[(x1 + gridSize) % gridSize, (y1 + gridSize) % gridSize, ((z + (4 + 1)) + gridSize) % gridSize].life)
+                                        if (cell[(x1 + gridSize) % gridSize, (y1 + gridSize) % gridSize, ((z + (rule[0] + 1)) + gridSize) % gridSize].life)
                                         {
                                             sum++;
                                         }
@@ -803,34 +803,34 @@ public class LifeGame : MonoBehaviour
                         {
                             if (cell[x, y, z].life)
                             {
-                                if (sum < 102 || sum > 142)
+                                if (sum < rule[3] || sum > rule[4])
                                 {
                                     state[x, y, z] = false;
                                     //Destroy(cell[x, y, z].obj);
-                                    cell[x, y, z].life = false;
+                                    //cell[x, y, z].life = false;
                                 }
                             }
                             else
                             {
-                                if (sum >= 102 && sum <= 133)
+                                if (sum >= rule[1] && sum <= rule[2])
                                 {
                                     state[x, y, z] = true;/*
                                     cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
                                     cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;*/
-                                    cell[x, y, z].life = true;
+                                    //cell[x, y, z].life = true;
                                 }
                             }
                             if (z != start_z)
                             {
-                                for (int x1 = x - 4; x1 < x + (4 + 1); x1++)
+                                for (int x1 = x - rule[0]; x1 < x + (rule[0] + 1); x1++)
                                 {
-                                    for (int y1 = y - 4; y1 < y + (4 + 1); y1++)
+                                    for (int y1 = y - rule[0]; y1 < y + (rule[0] + 1); y1++)
                                     {
-                                        if (cell[(x1 + gridSize) % gridSize, (y1 + gridSize) % gridSize, ((z + 4) + gridSize) % gridSize].life)
+                                        if (cell[(x1 + gridSize) % gridSize, (y1 + gridSize) % gridSize, ((z + rule[0]) + gridSize) % gridSize].life)
                                         {
                                             sum--;
                                         }
-                                        if (cell[(x1 + gridSize) % gridSize, (y1 + gridSize) % gridSize, ((z - (4 + 1)) + gridSize) % gridSize].life)
+                                        if (cell[(x1 + gridSize) % gridSize, (y1 + gridSize) % gridSize, ((z - (rule[0] + 1)) + gridSize) % gridSize].life)
                                         {
                                             sum++;
                                         }
@@ -850,15 +850,15 @@ public class LifeGame : MonoBehaviour
                         {
                             nz = start_z;
                         }
-                        for (int x2 = x - 4; x2 < x + (4 + 1); x2++)
+                        for (int x2 = x - rule[0]; x2 < x + (rule[0] + 1); x2++)
                         {
-                            for (int z1 = nz - 4; z1 < nz + (4 + 1); z1++)
+                            for (int z1 = nz - rule[0]; z1 < nz + (rule[0] + 1); z1++)
                             {
-                                if (cell[(x2 + gridSize) % gridSize, ((y - 4) + gridSize) % gridSize, (z1 + gridSize) % gridSize].life)
+                                if (cell[(x2 + gridSize) % gridSize, ((y - rule[0]) + gridSize) % gridSize, (z1 + gridSize) % gridSize].life)
                                 {
                                     sum--;
                                 }
-                                if (cell[(x2 + gridSize) % gridSize, ((y + (4 + 1)) + gridSize) % gridSize, (z1 + gridSize) % gridSize].life)
+                                if (cell[(x2 + gridSize) % gridSize, ((y + (rule[0] + 1)) + gridSize) % gridSize, (z1 + gridSize) % gridSize].life)
                                 {
                                     sum++;
                                 }
@@ -877,34 +877,34 @@ public class LifeGame : MonoBehaviour
                         {
                             if (cell[x, y, z].life)
                             {
-                                if (sum < 102 || sum > 142)
+                                if (sum < rule[3] || sum > rule[4])
                                 {
                                     state[x, y, z] = false;
                                     //Destroy(cell[x, y, z].obj);
-                                    cell[x, y, z].life = false;
+                                    //cell[x, y, z].life = false;
                                 }
                             }
                             else
                             {
-                                if (sum >= 102 && sum <= 133)
+                                if (sum >= rule[1] && sum <= rule[2])
                                 {
                                     state[x, y, z] = true;/*
                                     cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
                                     cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;*/
-                                    cell[x, y, z].life = true;
+                                    //cell[x, y, z].life = true;
                                 }
                             }
                             if (z != end_z - 1)
                             {
-                                for (int x1 = x - 4; x1 < x + (4 + 1); x1++)
+                                for (int x1 = x - rule[0]; x1 < x + (rule[0] + 1); x1++)
                                 {
-                                    for (int y1 = y - 4; y1 < y + (4 + 1); y1++)
+                                    for (int y1 = y - rule[0]; y1 < y + (rule[0] + 1); y1++)
                                     {
-                                        if (cell[(x1 + gridSize) % gridSize, (y1 + gridSize) % gridSize, ((z - 4) + gridSize) % gridSize].life)
+                                        if (cell[(x1 + gridSize) % gridSize, (y1 + gridSize) % gridSize, ((z - rule[0]) + gridSize) % gridSize].life)
                                         {
                                             sum--;
                                         }
-                                        if (cell[(x1 + gridSize) % gridSize, (y1 + gridSize) % gridSize, ((z + (4 + 1)) + gridSize) % gridSize].life)
+                                        if (cell[(x1 + gridSize) % gridSize, (y1 + gridSize) % gridSize, ((z + (rule[0] + 1)) + gridSize) % gridSize].life)
                                         {
                                             sum++;
                                         }
@@ -919,34 +919,34 @@ public class LifeGame : MonoBehaviour
                         {
                             if (cell[x, y, z].life)
                             {
-                                if (sum < 102 || sum > 142)
+                                if (sum < rule[3] || sum > rule[4])
                                 {
                                     state[x, y, z] = false;
                                     //Destroy(cell[x, y, z].obj);
-                                    cell[x, y, z].life = false;
+                                    //cell[x, y, z].life = false;
                                 }
                             }
                             else
                             {
-                                if (sum >= 102 && sum <= 133)
+                                if (sum >= rule[1] && sum <= rule[2])
                                 {
                                     state[x, y, z] = true;/*
                                     cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
                                     cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;*/
-                                    cell[x, y, z].life = true;
+                                    //cell[x, y, z].life = true;
                                 }
                             }
                             if (z != start_z)
                             {
-                                for (int x1 = x - 4; x1 < x + (4 + 1); x1++)
+                                for (int x1 = x - rule[0]; x1 < x + (rule[0] + 1); x1++)
                                 {
-                                    for (int y1 = y - 4; y1 < y + (4 + 1); y1++)
+                                    for (int y1 = y - rule[0]; y1 < y + (rule[0] + 1); y1++)
                                     {
-                                        if (cell[(x1 + gridSize) % gridSize, (y1 + gridSize) % gridSize, ((z + 4) + gridSize) % gridSize].life)
+                                        if (cell[(x1 + gridSize) % gridSize, (y1 + gridSize) % gridSize, ((z + rule[0]) + gridSize) % gridSize].life)
                                         {
                                             sum--;
                                         }
-                                        if (cell[(x1 + gridSize) % gridSize, (y1 + gridSize) % gridSize, ((z - (4 + 1)) + gridSize) % gridSize].life)
+                                        if (cell[(x1 + gridSize) % gridSize, (y1 + gridSize) % gridSize, ((z - (rule[0] + 1)) + gridSize) % gridSize].life)
                                         {
                                             sum++;
                                         }
@@ -966,15 +966,15 @@ public class LifeGame : MonoBehaviour
                         {
                             nz = start_z;
                         }
-                        for (int x2 = x - 4; x2 < x + (4 + 1); x2++)
+                        for (int x2 = x - rule[0]; x2 < x + (rule[0] + 1); x2++)
                         {
-                            for (int z1 = nz - 4; z1 < nz + (4 + 1); z1++)
+                            for (int z1 = nz - rule[0]; z1 < nz + (rule[0] + 1); z1++)
                             {
-                                if (cell[(x2 + gridSize) % gridSize, ((y + 4) + gridSize) % gridSize, (z1 + gridSize) % gridSize].life)
+                                if (cell[(x2 + gridSize) % gridSize, ((y + rule[0]) + gridSize) % gridSize, (z1 + gridSize) % gridSize].life)
                                 {
                                     sum--;
                                 }
-                                if (cell[(x2 + gridSize) % gridSize, ((y - (4 + 1)) + gridSize) % gridSize, (z1 + gridSize) % gridSize].life)
+                                if (cell[(x2 + gridSize) % gridSize, ((y - (rule[0] + 1)) + gridSize) % gridSize, (z1 + gridSize) % gridSize].life)
                                 {
                                     sum++;
                                 }
@@ -1001,15 +1001,15 @@ public class LifeGame : MonoBehaviour
                     ny = start_y;
                     nz = start_z;
                 }
-                for (int y2 = ny - 4; y2 < ny + (4 + 1); y2++)
+                for (int y2 = ny - rule[0]; y2 < ny + (rule[0] + 1); y2++)
                 {
-                    for (int z2 = nz - 4; z2 < nz + (4 + 1); z2++)
+                    for (int z2 = nz - rule[0]; z2 < nz + (rule[0] + 1); z2++)
                     {
-                        if (cell[((x - 4) + gridSize) % gridSize, (y2 + gridSize) % gridSize, (z2 + gridSize) % gridSize].life)
+                        if (cell[((x - rule[0]) + gridSize) % gridSize, (y2 + gridSize) % gridSize, (z2 + gridSize) % gridSize].life)
                         {
                             sum--;
                         }
-                        if (cell[((x + (4 + 1)) + gridSize) % gridSize, (y2 + gridSize) % gridSize, (z2 + gridSize) % gridSize].life)
+                        if (cell[((x + (rule[0] + 1)) + gridSize) % gridSize, (y2 + gridSize) % gridSize, (z2 + gridSize) % gridSize].life)
                         {
                             sum++;
                         }
@@ -1434,6 +1434,32 @@ public class LifeGame : MonoBehaviour
                             state[pos(position.x), pos(position.y), tg.z] = true;
                             hush[pos(position.x), pos(position.y), tg.z, memory_time] = true;
                             //chenge_state = true;
+                        }
+                        else
+                        {
+                            int i = 1;
+                            while (true)
+                            {
+                                if (cell[pos(position.x), pos(position.y), tg.z - i].life)
+                                {
+                                    if (tg.z - i > 0)
+                                    {
+                                        i++;
+                                    } else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    cell[pos(position.x), pos(position.y), tg.z - i].obj = Instantiate(CellPrefab) as GameObject;
+                                    cell[pos(position.x), pos(position.y), tg.z - i].obj.transform.localPosition = cell[pos(position.x), pos(position.y), tg.z - i].Pos;
+                                    cell[pos(position.x), pos(position.y), tg.z - i].life = true;
+                                    state[pos(position.x), pos(position.y), tg.z - i] = true;
+                                    hush[pos(position.x), pos(position.y), tg.z - i, memory_time] = true;
+                                    break;
+                                }
+                            }
                         }
                     }
                     break;

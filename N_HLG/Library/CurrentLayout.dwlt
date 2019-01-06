@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 6}
-  m_MinSize: {x: 950, y: 521}
+  m_MinSize: {x: 950, y: 542}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -40,15 +40,15 @@ MonoBehaviour:
     y: 0
     width: 560
     height: 676
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 14}
+  m_MinSize: {x: 102, y: 121}
+  m_MaxSize: {x: 4002, y: 4021}
+  m_ActualView: {fileID: 11}
   m_Panes:
   - {fileID: 14}
   - {fileID: 12}
   - {fileID: 11}
-  m_Selected: 0
-  m_LastSelected: 2
+  m_Selected: 2
+  m_LastSelected: 0
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -94,10 +94,10 @@ MonoBehaviour:
     y: 30
     width: 1920
     height: 947
-  m_MinSize: {x: 677, y: 471}
-  m_MaxSize: {x: 12002, y: 14042}
+  m_MinSize: {x: 508, y: 492}
+  m_MaxSize: {x: 12008, y: 14042}
   vertical: 1
-  controlID: 48
+  controlID: 46
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -116,8 +116,8 @@ MonoBehaviour:
     y: 0
     width: 408
     height: 676
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -188,10 +188,10 @@ MonoBehaviour:
     y: 0
     width: 1920
     height: 676
-  m_MinSize: {x: 677, y: 200}
-  m_MaxSize: {x: 12002, y: 4021}
+  m_MinSize: {x: 508, y: 221}
+  m_MaxSize: {x: 12008, y: 4021}
   vertical: 0
-  controlID: 49
+  controlID: 47
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -230,8 +230,8 @@ MonoBehaviour:
     y: 0
     width: 952
     height: 676
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 204, y: 221}
+  m_MaxSize: {x: 4004, y: 4021}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 17}
@@ -323,21 +323,21 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 8897d5ff5498d5ff5e9ad5ff6ec9d5ff3acad5ff44ccd5ff4aebd5ff16ecd5ff20eed5ff527bd8ff1e7cd8ff247ed8ffe026daffb227daffb829dafff813e9ffc414e9ffce16e9ffe48bfaffb08cfaffb68efaff3805feff0806fefffc07feff96fbffff000000002a3d0000
+    m_ExpandedIDs: 724fcbff6c50cbff7652cbff3a5ccbff345dcbff3e5fcbff706ccbff6c6dcbff766fcbffee7bcbffe27ccbffec7ecbff96fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: InputManager
-      m_OriginalName: InputManager
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 16912
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 5}
     m_SearchString: 
@@ -428,10 +428,10 @@ MonoBehaviour:
   m_LastProjectPath: C:\Users\Nakahara Kazuma\LifeGame_HL\N_HLG
   m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 135}
+    scrollPos: {x: 0, y: 503}
     m_SelectedIDs: c62f0000
     m_LastClickedID: 12230
-    m_ExpandedIDs: 000000003a2c00004a2f000004300000ffffff7f
+    m_ExpandedIDs: 000000003a2c0000702e0000022f0000222f0000382f00004a2f0000822f000004300000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -652,7 +652,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0.035551194, y: 0.7278451, z: -0.037790965, w: 0.6837887}
     speed: 2
-    m_Value: {x: 0.035550885, y: 0.72783875, z: -0.037790637, w: 0.68378276}
+    m_Value: {x: 0.035551198, y: 0.7278451, z: -0.03779097, w: 0.6837887}
   m_Size:
     m_Target: 1.2848345
     speed: 2

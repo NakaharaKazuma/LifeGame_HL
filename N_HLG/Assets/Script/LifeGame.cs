@@ -1335,6 +1335,34 @@ public class LifeGame : MonoBehaviour
                             hush[tg.x, pos(position.y), pos(position.z), memory_time] = true;
                             //chenge_state = true;
                         }
+                        else
+                        {
+                            int i = 1;
+                            while (true)
+                            {
+                                if (cell[tg.x - i, pos(position.y), pos(position.z)].life)
+                                {
+                                    if (tg.x - i > 0)
+                                    {
+                                        i++;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    cell[tg.x - i, pos(position.y), pos(position.z)].obj = Instantiate(CellPrefab) as GameObject;
+                                    cell[tg.x - i, pos(position.y), pos(position.z)].obj.transform.localPosition = cell[tg.x - i, pos(position.y), pos(position.z)].Pos;
+                                    cell[tg.x - i, pos(position.y), pos(position.z)].life = true;
+                                    state[tg.x - i, pos(position.y), pos(position.z)] = true;
+                                    hush[tg.x - i, pos(position.y), pos(position.z), memory_time] = true;
+                                    //chenge_state = true;
+                                    break;
+                                }
+                            }
+                        }
                     }
                     break;
                 case "x-":
@@ -1359,6 +1387,34 @@ public class LifeGame : MonoBehaviour
                             state[tg.x, pos(position.y), pos(position.z)] = true;
                             hush[tg.x, pos(position.y), pos(position.z), memory_time] = true;
                             //chenge_state = true;
+                        }
+                        else
+                        {
+                            int i = 1;
+                            while (true)
+                            {
+                                if (cell[tg.x + i, pos(position.y), pos(position.z)].life)
+                                {
+                                    if (tg.x + i > gridSize - 1)
+                                    {
+                                        i++;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    cell[tg.x + i, pos(position.y), pos(position.z)].obj = Instantiate(CellPrefab) as GameObject;
+                                    cell[tg.x + i, pos(position.y), pos(position.z)].obj.transform.localPosition = cell[tg.x + i, pos(position.y), pos(position.z)].Pos;
+                                    cell[tg.x + i, pos(position.y), pos(position.z)].life = true;
+                                    state[tg.x + i, pos(position.y), pos(position.z)] = true;
+                                    hush[tg.x + i, pos(position.y), pos(position.z), memory_time] = true;
+                                    //chenge_state = true;
+                                    break;
+                                }
+                            }
                         }
                     }
                     break;
@@ -1385,6 +1441,34 @@ public class LifeGame : MonoBehaviour
                             hush[pos(position.x), tg.y, pos(position.z), memory_time] = true;
                             //chenge_state = true;
                         }
+                        else
+                        {
+                            int i = 1;
+                            while (true)
+                            {
+                                if (cell[pos(position.x), tg.y - i, pos(position.z)].life)
+                                {
+                                    if (tg.y - i > 0)
+                                    {
+                                        i++;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    cell[pos(position.x), tg.y - i, pos(position.z)].obj = Instantiate(CellPrefab) as GameObject;
+                                    cell[pos(position.x), tg.y - i, pos(position.z)].obj.transform.localPosition = cell[pos(position.x), tg.y - i, pos(position.z)].Pos;
+                                    cell[pos(position.x), tg.y - i, pos(position.z)].life = true;
+                                    state[pos(position.x), tg.y - i, pos(position.z)] = true;
+                                    hush[pos(position.x), tg.y - i, pos(position.z), memory_time] = true;
+                                    //chenge_state = true;
+                                    break;
+                                }
+                            }
+                        }
                     }
                     break;
                 case "y-":
@@ -1409,6 +1493,34 @@ public class LifeGame : MonoBehaviour
                             state[pos(position.x), tg.y, pos(position.z)] = true;
                             hush[pos(position.x), tg.y, pos(position.z), memory_time] = true;
                             //chenge_state = true;
+                        }
+                        else
+                        {
+                            int i = 1;
+                            while (true)
+                            {
+                                if (cell[pos(position.x), tg.y + i, pos(position.z)].life)
+                                {
+                                    if (tg.y + i > gridSize -1)
+                                    {
+                                        i++;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    cell[pos(position.x), tg.y + i, pos(position.z)].obj = Instantiate(CellPrefab) as GameObject;
+                                    cell[pos(position.x), tg.y + i, pos(position.z)].obj.transform.localPosition = cell[pos(position.x), tg.y + i, pos(position.z)].Pos;
+                                    cell[pos(position.x), tg.y + i, pos(position.z)].life = true;
+                                    state[pos(position.x), tg.y + i, pos(position.z)] = true;
+                                    hush[pos(position.x), tg.y + i, pos(position.z), memory_time] = true;
+                                    //chenge_state = true;
+                                    break;
+                                }
+                            }
                         }
                     }
                     break;
@@ -1485,6 +1597,33 @@ public class LifeGame : MonoBehaviour
                             state[pos(position.x), pos(position.y), tg.z] = true;
                             hush[pos(position.x), pos(position.y), tg.z, memory_time] = true;
                             //chenge_state = true;
+                        }
+                        else
+                        {
+                            int i = 1;
+                            while (true)
+                            {
+                                if (cell[pos(position.x), pos(position.y), tg.z + i].life)
+                                {
+                                    if (tg.z + i > gridSize - 1)
+                                    {
+                                        i++;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    cell[pos(position.x), pos(position.y), tg.z + i].obj = Instantiate(CellPrefab) as GameObject;
+                                    cell[pos(position.x), pos(position.y), tg.z + i].obj.transform.localPosition = cell[pos(position.x), pos(position.y), tg.z + i].Pos;
+                                    cell[pos(position.x), pos(position.y), tg.z + i].life = true;
+                                    state[pos(position.x), pos(position.y), tg.z + i] = true;
+                                    hush[pos(position.x), pos(position.y), tg.z + i, memory_time] = true;
+                                    break;
+                                }
+                            }
                         }
                     }
                     break;

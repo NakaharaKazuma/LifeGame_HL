@@ -137,7 +137,6 @@ public class LifeGame : MonoBehaviour
                 for (int z = 0; z < gridSize; z++)
                 {
                     cell[x, y, z].life = false;
-
                     cell[x, y, z].Pos = new Vector3((x + (float)0.5) * CELL_SIZE, (y + (float)0.5) * CELL_SIZE, (z + (float)0.5) * CELL_SIZE);
                 }
 
@@ -635,6 +634,7 @@ public class LifeGame : MonoBehaviour
             }
         }
 
+        /*
         for (int x0 = 0; x0 < block; x0++)
         {
             for (int y0 = 0; y0 < block; y0++)
@@ -649,6 +649,7 @@ public class LifeGame : MonoBehaviour
             }
         }
         ab.text = count.ToString();
+        */
 
         for (int x0 = 0; x0 < block; x0++)
         {
@@ -1169,7 +1170,41 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    Target.transform.localPosition = tg_cell.Pos;
+                    if (chenge_state)
+                    {
+                        if (tg_cell.life)
+                        {
+                            int j = 1;
+                            while (true)
+                            {
+                                if (cell[tg.x - j, pos(position.y), pos(position.z)].life)
+                                {
+                                    if (tg.x - j > 0)
+                                    {
+                                        j++;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    Target.transform.localPosition = cell[tg.x - j, pos(position.y), pos(position.z)].Pos;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Target.transform.localPosition = tg_cell.Pos;
+                        }
+                    }
+                    else
+                    {
+                        Target.transform.localPosition = tg_cell.Pos;
+                    }
+                    cell[tg.x, pos(position.y), pos(position.z)] = tg_cell;
                     break;
                 case "x-":
                     tg_cell = cell[tg.x, pos(position.y), pos(position.z)];
@@ -1194,7 +1229,41 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    Target.transform.localPosition = tg_cell.Pos;
+                    if (chenge_state)
+                    {
+                        if (tg_cell.life)
+                        {
+                            int j = 1;
+                            while (true)
+                            {
+                                if (cell[tg.x + j, pos(position.y), pos(position.z)].life)
+                                {
+                                    if (tg.x + j < gridSize - 1)
+                                    {
+                                        j++;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    Target.transform.localPosition = cell[tg.x + j, pos(position.y), pos(position.z)].Pos;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Target.transform.localPosition = tg_cell.Pos;
+                        }
+                    }
+                    else
+                    {
+                        Target.transform.localPosition = tg_cell.Pos;
+                    }
+                    cell[tg.x, pos(position.y), pos(position.z)] = tg_cell;
                     break;
                 case "y+":
                     tg_cell = cell[pos(position.x), tg.y, pos(position.z)];
@@ -1219,7 +1288,41 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    Target.transform.localPosition = tg_cell.Pos;
+                    if (chenge_state)
+                    {
+                        if (tg_cell.life)
+                        {
+                            int j = 1;
+                            while (true)
+                            {
+                                if (cell[pos(position.x), tg.y - j, pos(position.z)].life)
+                                {
+                                    if (tg.y - j > 0)
+                                    {
+                                        j++;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    Target.transform.localPosition = cell[pos(position.x), tg.y - j, pos(position.z)].Pos;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Target.transform.localPosition = tg_cell.Pos;
+                        }
+                    }
+                    else
+                    {
+                        Target.transform.localPosition = tg_cell.Pos;
+                    }
+                    cell[pos(position.x), tg.y, pos(position.z)] = tg_cell;
                     break;
                 case "y-":
                     tg_cell = cell[pos(position.x), tg.y, pos(position.z)];
@@ -1244,7 +1347,41 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    Target.transform.localPosition = tg_cell.Pos;
+                    if (chenge_state)
+                    {
+                        if (tg_cell.life)
+                        {
+                            int j = 1;
+                            while (true)
+                            {
+                                if (cell[pos(position.x), tg.y + j, pos(position.z)].life)
+                                {
+                                    if (tg.y + j > gridSize - 1)
+                                    {
+                                        j++;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    Target.transform.localPosition = cell[pos(position.x), tg.y + j, pos(position.z)].Pos;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Target.transform.localPosition = tg_cell.Pos;
+                        }
+                    }
+                    else
+                    {
+                        Target.transform.localPosition = tg_cell.Pos;
+                    }
+                    cell[pos(position.x), tg.y, pos(position.z)] = tg_cell;
                     break;
                 case "z+":                    
                     tg_cell = cell[pos(position.x), pos(position.y), tg.z];                    
@@ -1269,7 +1406,38 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    Target.transform.localPosition = tg_cell.Pos;
+                    if (chenge_state)
+                    {
+                        if (tg_cell.life)
+                        {
+                            int j = 1;
+                            while (true)
+                            {
+                                if (cell[pos(position.x), pos(position.y), tg.z - j].life)
+                                {
+                                    if (tg.z - j > 0)
+                                    {
+                                        j++;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    Target.transform.localPosition = cell[pos(position.x), pos(position.y), tg.z - j].Pos;
+                                    break;
+                                }
+                            }
+                        } else
+                        {
+                            Target.transform.localPosition = tg_cell.Pos;
+                        }
+                    } else
+                    {
+                        Target.transform.localPosition = tg_cell.Pos;
+                    }                    
                     cell[pos(position.x), pos(position.y), tg.z] = tg_cell;
                     break;
                 case "z-":                    
@@ -1295,9 +1463,41 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    Target.transform.localPosition = tg_cell.Pos;
+                    if (chenge_state)
+                    {
+                        if (tg_cell.life)
+                        {
+                            int j = 1;
+                            while (true)
+                            {
+                                if (cell[pos(position.x), pos(position.y), tg.z + j].life)
+                                {
+                                    if (tg.z + j < gridSize - 1)
+                                    {
+                                        j++;
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    Target.transform.localPosition = cell[pos(position.x), pos(position.y), tg.z + j].Pos;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Target.transform.localPosition = tg_cell.Pos;
+                        }
+                    }
+                    else
+                    {
+                        Target.transform.localPosition = tg_cell.Pos;
+                    }
                     cell[pos(position.x), pos(position.y), tg.z] = tg_cell;
-                    Target.transform.localPosition = tg_cell.Pos;
                     break;
             }
             pre_position = position;
@@ -1395,7 +1595,7 @@ public class LifeGame : MonoBehaviour
                             {
                                 if (cell[tg.x + i, pos(position.y), pos(position.z)].life)
                                 {
-                                    if (tg.x + i > gridSize - 1)
+                                    if (tg.x + i < gridSize - 1)
                                     {
                                         i++;
                                     }
@@ -1501,7 +1701,7 @@ public class LifeGame : MonoBehaviour
                             {
                                 if (cell[pos(position.x), tg.y + i, pos(position.z)].life)
                                 {
-                                    if (tg.y + i > gridSize -1)
+                                    if (tg.y + i < gridSize -1)
                                     {
                                         i++;
                                     }
@@ -1605,7 +1805,7 @@ public class LifeGame : MonoBehaviour
                             {
                                 if (cell[pos(position.x), pos(position.y), tg.z + i].life)
                                 {
-                                    if (tg.z + i > gridSize - 1)
+                                    if (tg.z + i < gridSize - 1)
                                     {
                                         i++;
                                     }
@@ -1629,6 +1829,7 @@ public class LifeGame : MonoBehaviour
                     break;
             }
             tapping = true;
+            ab.text = "tapping";
         }
     }
 
@@ -1638,6 +1839,7 @@ public class LifeGame : MonoBehaviour
     private void InteractionSourceReleased(InteractionSourceReleasedEventArgs ev)
     {
         tapping = false;
+        ab.text = "";
     }
     /*
     // 手が視界から外れた時に呼ばれる

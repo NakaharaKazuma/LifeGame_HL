@@ -115,7 +115,7 @@ public class LifeGame : MonoBehaviour
         InteractionManager.InteractionSourceReleased += InteractionSourceReleased;
         
         
-        rule = new int[] {1, 2, 3, 2, 4};
+        rule = new int[] {1, 3, 3, 3, 4};
 
         range = rule[0] * 2 + 1;
         bugs = new Pattern();

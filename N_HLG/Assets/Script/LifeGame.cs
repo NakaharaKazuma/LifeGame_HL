@@ -74,6 +74,8 @@ public class LifeGame : MonoBehaviour
 
     public bool tapping = false;
 
+    public bool active_Wall = true;
+
     public Vector3Int tg;
 
     public Vector3 Wall_Xpos;
@@ -191,7 +193,7 @@ public class LifeGame : MonoBehaviour
              chenge_state = !chenge_state;
         }
 
-        if (Input.GetKeyDown(KeyCode.Joystick1Button6))
+        if (Input.GetKeyDown(KeyCode.Joystick1Button6) && active_Wall)
         {
             switch (cameradir.Cameradirection())
             {
@@ -227,6 +229,16 @@ public class LifeGame : MonoBehaviour
                     if (tg.z < gridSize - 1)
                     {
                         Wall_Z.transform.position += new Vector3(0, 0, CELL_SIZE);
+                        for(int w_y = 0; w_y < gridSize; w_y++)
+                        {
+                            for (int w_x = 0; w_x < gridSize; w_x++)
+                            {
+                                if(cell[w_x,w_y,tg.z].life)
+                                {
+                                    cell[w_x, w_y, tg.z].obj.GetComponent<Renderer>().material = Cell_02;
+                                }
+                            }
+                        }
                         tg.z++;
                     }
                     break;
@@ -240,7 +252,7 @@ public class LifeGame : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Joystick1Button7))
+        if (Input.GetKeyDown(KeyCode.Joystick1Button7) && active_Wall)
         {
             switch (cameradir.Cameradirection())
             {
@@ -276,6 +288,16 @@ public class LifeGame : MonoBehaviour
                     if (tg.z > 0)
                     {
                         Wall_Z.transform.position -= new Vector3(0, 0, CELL_SIZE);
+                        for (int w_y = 0; w_y < gridSize; w_y++)
+                        {
+                            for (int w_x = 0; w_x < gridSize; w_x++)
+                            {
+                                if (cell[w_x, w_y, tg.z].life)
+                                {
+                                    cell[w_x, w_y, tg.z].obj.GetComponent<Renderer>().material = Cell_01;
+                                }
+                            }
+                        }
                         tg.z--;
                     }
                     break;
@@ -287,6 +309,15 @@ public class LifeGame : MonoBehaviour
                     }
                     break;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Joystick1Button8))
+        {
+            if (active_Wall)
+            {
+                Clean_cell();
+            }
+            active_Wall = !active_Wall;
         }
         
         if (Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.Joystick1Button1))
@@ -479,9 +510,7 @@ public class LifeGame : MonoBehaviour
                             if (hush[x, y, z, memory_time])
                             {
                                 cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
-
                                 cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;
-
                                 if (z < tg.z)
                                 {
                                     cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
@@ -520,9 +549,7 @@ public class LifeGame : MonoBehaviour
                             if (hush[x, y, z, memory_time])
                             {
                                 cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
-
                                 cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;
-
                                 if (z < tg.z)
                                 {
                                     cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
@@ -535,43 +562,45 @@ public class LifeGame : MonoBehaviour
                 }
             }
         }
-        
-        switch (cameradir.Cameradirection())
-        {
-            case "x+":
-                Wall_X.SetActive(true);
-                Wall_Y.SetActive(false);
-                Wall_Z.SetActive(false);
-                break;
-            case "x-":
-                Wall_X.SetActive(true);
-                Wall_Y.SetActive(false);
-                Wall_Z.SetActive(false);
-                break;
-            case "y+":
-                Wall_X.SetActive(false);
-                Wall_Y.SetActive(true);
-                Wall_Z.SetActive(false);
-                break;
-            case "y-":
-                Wall_X.SetActive(false);
-                Wall_Y.SetActive(true);
-                Wall_Z.SetActive(false);
-                break;
-            case "z+":
-                Wall_X.SetActive(false);
-                Wall_Y.SetActive(false);
-                Wall_Z.SetActive(true);
-                break;
-            case "z-":
-                Wall_X.SetActive(false);
-                Wall_Y.SetActive(false);
-                Wall_Z.SetActive(true);
-                break;
-        }
-        
-        Tag.text = "(" + tg.x.ToString() + ", " + tg.y.ToString() + ", " + tg.z.ToString() + ")";
 
+        if (active_Wall)
+        {
+            switch (cameradir.Cameradirection())
+            {
+                case "x+":
+                    Wall_X.SetActive(true);
+                    Wall_Y.SetActive(false);
+                    Wall_Z.SetActive(false);
+                    break;
+                case "x-":
+                    Wall_X.SetActive(true);
+                    Wall_Y.SetActive(false);
+                    Wall_Z.SetActive(false);
+                    break;
+                case "y+":
+                    Wall_X.SetActive(false);
+                    Wall_Y.SetActive(true);
+                    Wall_Z.SetActive(false);
+                    break;
+                case "y-":
+                    Wall_X.SetActive(false);
+                    Wall_Y.SetActive(true);
+                    Wall_Z.SetActive(false);
+                    break;
+                case "z+":
+                    Wall_X.SetActive(false);
+                    Wall_Y.SetActive(false);
+                    Wall_Z.SetActive(true);
+                    break;
+                case "z-":
+                    Wall_X.SetActive(false);
+                    Wall_Y.SetActive(false);
+                    Wall_Z.SetActive(true);
+                    break;
+            }
+        }
+                
+        Tag.text = "(" + tg.x.ToString() + ", " + tg.y.ToString() + ", " + tg.z.ToString() + ")";
     }
 
     private IEnumerator LifeGameCoroutine()
@@ -1086,9 +1115,9 @@ public class LifeGame : MonoBehaviour
             }
         }        
     }
-    /*
+    
     public void Clean_cell()
-    {
+    {        
         for (int x = 0; x < gridSize; x++)
         {
             for (int y = 0; y < gridSize; y++)
@@ -1102,16 +1131,19 @@ public class LifeGame : MonoBehaviour
                 }
             }
         }
+        Wall_X.SetActive(false);
+        Wall_Y.SetActive(false);
+        Wall_Z.SetActive(false);
         //cell[tg.x, tg.y, tg.z].obj.layer = 0;
-        
-        Wall.SetActive(false);
-        Target.SetActive(false);
-        
+
+        //Wall.SetActive(false);
+        //Target.SetActive(false);
+
         //Wall.transform.localPosition = new Vector3(cell[gridSize - 1, 0, 0].Pos.x / 2, cell[0, gridSize - 1, 0].Pos.y / 2, cell[0, 0, 0].Pos.x + CELL_SIZE / 2);
         //Wall_pos = Wall.transform.localPosition;
         //tg.z = 0;
     }
-    */
+    
     public int pos(float a)
     {
         if (cell[0, 0, 0].Pos.x == a)

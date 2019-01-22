@@ -94,6 +94,8 @@ public class LifeGame : MonoBehaviour
 
     public int count;
 
+    public int resent_memory = 0;
+
     public float h1;
     public float v1;
 
@@ -487,80 +489,86 @@ public class LifeGame : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Joystick1Button13))
         {
-            memory_time -= 1;
-            if (memory_time < 0)
+            if (resent_memory + 1 != memory_time)
             {
-                memory_time = 50;
-            }
-            for (int x = 0; x < gridSize; x++)
-            {
-                for (int y = 0; y < gridSize; y++)
+                memory_time -= 1;
+                if (memory_time < 0)
                 {
-                    for (int z = 0; z < gridSize; z++)
+                    memory_time = 50;
+                }
+                for (int x = 0; x < gridSize; x++)
+                {
+                    for (int y = 0; y < gridSize; y++)
                     {
-                        if (cell[x, y, z].life)
+                        for (int z = 0; z < gridSize; z++)
                         {
-                            if (!hush[x, y, z, memory_time])
+                            if (cell[x, y, z].life)
                             {
-                                Destroy(cell[x, y, z].obj);
-                            }
-                        }
-                        else
-                        {
-                            if (hush[x, y, z, memory_time])
-                            {
-                                cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
-                                cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;
-                                if (z < tg.z)
+                                if (!hush[x, y, z, memory_time])
                                 {
-                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                    Destroy(cell[x, y, z].obj);
                                 }
                             }
+                            else
+                            {
+                                if (hush[x, y, z, memory_time])
+                                {
+                                    cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
+                                    cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;
+                                    if (z < tg.z)
+                                    {
+                                        cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                    }
+                                }
+                            }
+                            cell[x, y, z].life = hush[x, y, z, memory_time];
+                            state[x, y, z] = hush[x, y, z, memory_time];
                         }
-                        cell[x, y, z].life = hush[x, y, z, memory_time];
-                        state[x, y, z] = hush[x, y, z, memory_time];
                     }
                 }
-            }
+            }            
         }
 
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Joystick1Button12))
         {
-            memory_time += 1;
-            if (memory_time == 50)
+            if(resent_memory != memory_time)
             {
-                memory_time = 0;
-            }
-            for (int x = 0; x < gridSize; x++)
-            {
-                for (int y = 0; y < gridSize; y++)
+                memory_time += 1;
+                if (memory_time == 50)
                 {
-                    for (int z = 0; z < gridSize; z++)
+                    memory_time = 0;
+                }
+                for (int x = 0; x < gridSize; x++)
+                {
+                    for (int y = 0; y < gridSize; y++)
                     {
-                        if (cell[x, y, z].life)
+                        for (int z = 0; z < gridSize; z++)
                         {
-                            if (!hush[x, y, z, memory_time])
+                            if (cell[x, y, z].life)
                             {
-                                Destroy(cell[x, y, z].obj);
-                            }
-                        }
-                        else
-                        {
-                            if (hush[x, y, z, memory_time])
-                            {
-                                cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
-                                cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;
-                                if (z < tg.z)
+                                if (!hush[x, y, z, memory_time])
                                 {
-                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                    Destroy(cell[x, y, z].obj);
                                 }
                             }
+                            else
+                            {
+                                if (hush[x, y, z, memory_time])
+                                {
+                                    cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
+                                    cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;
+                                    if (z < tg.z)
+                                    {
+                                        cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                    }
+                                }
+                            }
+                            cell[x, y, z].life = hush[x, y, z, memory_time];
+                            state[x, y, z] = hush[x, y, z, memory_time];
                         }
-                        cell[x, y, z].life = hush[x, y, z, memory_time];
-                        state[x, y, z] = hush[x, y, z, memory_time];
                     }
                 }
-            }
+            }            
         }
 
         if (active_Wall)
@@ -695,9 +703,11 @@ public class LifeGame : MonoBehaviour
         }
         
         memory_time += 1;
+        resent_memory += 1;
         if (memory_time == 50)
         {
-            memory_time = 1;
+            memory_time = 0;
+            resent_memory = 0;
         }
         
         for (int x0 = 0; x0 < block; x0++)

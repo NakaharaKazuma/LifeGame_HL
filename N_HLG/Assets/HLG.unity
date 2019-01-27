@@ -165,6 +165,7 @@ MonoBehaviour:
   edit_state: 1
   change_depth: 0
   tapping: 0
+  active_Wall: 1
   tg: {x: 0, y: 0, z: 0}
   Wall_Xpos: {x: 0, y: 0, z: 0}
   Wall_Ypos: {x: 0, y: 0, z: 0}
@@ -175,6 +176,7 @@ MonoBehaviour:
   memory_time: 0
   rule: 
   count: 0
+  resent_memory: 0
   h1: 0
   v1: 0
   scroll: 0

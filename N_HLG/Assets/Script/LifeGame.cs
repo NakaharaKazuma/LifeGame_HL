@@ -175,7 +175,9 @@ public class LifeGame : MonoBehaviour
         Instantiate(Y);
         Instantiate(Z);
         //Wall.SetActive(false);
-                
+
+        ab.text = "["+rule[0].ToString() + "," + rule[1].ToString() + "," + rule[2].ToString() + "," + rule[3].ToString() + "," + rule[4].ToString() + "]";
+
         cameradir = new Cameradir();
     }
 
@@ -390,7 +392,7 @@ public class LifeGame : MonoBehaviour
                                     {
                                         if (cell[a, b, c].life)
                                         {
-                                            data += "[" + a.ToString() + "," + b.ToString() + "," + b.ToString() + "]\n";
+                                            data += /*"[" + */a.ToString() + "," + b.ToString() + "," + b.ToString() + "\n";
                                         }
                                     }
                                 }
@@ -421,6 +423,7 @@ public class LifeGame : MonoBehaviour
 #pragma warning disable 0219
                     fileString = result.ReadText();
 #pragma warning restore 0219
+                    /*
                     int x = 20;
                     int y = 20;
                     int z = 20;
@@ -482,9 +485,34 @@ public class LifeGame : MonoBehaviour
                         {
                             break;
                         }
+                    }*/
+                }
+                string num = "";
+                int[] zahyo = new int[3];
+                int purin = 0;
+                for (int i= 0;i < fileString.Length;i++)
+                {
+                    if(fileString[i] >= '0' && fileString[i] <= '9')
+                    {
+                        num += fileString[i];
+                    } else if(fileString[i] == ',')
+                    {
+                        zahyo[purin] = int.Parse(num);
+                        purin++;
+                        num = "";
+                    } else if (fileString[i] == '\n')
+                    {
+                        zahyo[purin] = int.Parse(num);
+                        cell[zahyo[0], zahyo[1], zahyo[2]].obj = Instantiate(CellPrefab) as GameObject;
+                        cell[zahyo[0], zahyo[1], zahyo[2]].obj.transform.localPosition = cell[zahyo[0], zahyo[1], zahyo[2]].Pos;
+                        cell[zahyo[0], zahyo[1], zahyo[2]].life = true;
+                        state[zahyo[0], zahyo[1], zahyo[2]] = true;
+                        hush[zahyo[0], zahyo[1], zahyo[2], memory_time] = true;
+                        purin = 0;
                     }
                 }
             });
+
         }
         
         if (Input.GetKeyDown(KeyCode.Backspace) || Input.GetKeyDown(KeyCode.Joystick1Button13))

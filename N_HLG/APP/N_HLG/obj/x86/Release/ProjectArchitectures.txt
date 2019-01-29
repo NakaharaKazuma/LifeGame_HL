@@ -1,2 +1,2 @@
 C:\Users\Nakahara Kazuma\Documents\N_HLG\APP\GeneratedProjects\UWP\Assembly-CSharp\Assembly-CSharp.csproj;x86
-C:\Users\Nakahara Kazuma\Documents\N_HLG\APP\N_HLG\N_HLG.csproj;x86
+C:\Users\Nakahara Kazuma\LifeGame_HL\N_HLG\APP\N_HLG\N_HLG.csproj;x86

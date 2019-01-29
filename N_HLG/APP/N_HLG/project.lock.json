@@ -15835,8 +15835,8 @@
     },
     "Assembly-CSharp/1.0.0": {
       "type": "project",
-      "path": "../GeneratedProjects/UWP/Assembly-CSharp/project.json",
-      "msbuildProject": "../GeneratedProjects/UWP/Assembly-CSharp/Assembly-CSharp.csproj"
+      "path": "../../../../Documents/N_HLG/APP/GeneratedProjects/UWP/Assembly-CSharp/project.json",
+      "msbuildProject": "../../../../Documents/N_HLG/APP/GeneratedProjects/UWP/Assembly-CSharp/Assembly-CSharp.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -15853,12 +15853,12 @@
   },
   "project": {
     "restore": {
-      "projectUniqueName": "C:\\Users\\Nakahara Kazuma\\Documents\\N_HLG\\APP\\N_HLG\\N_HLG.csproj",
+      "projectUniqueName": "C:\\Users\\Nakahara Kazuma\\LifeGame_HL\\N_HLG\\APP\\N_HLG\\N_HLG.csproj",
       "projectName": "N_HLG",
-      "projectPath": "C:\\Users\\Nakahara Kazuma\\Documents\\N_HLG\\APP\\N_HLG\\N_HLG.csproj",
-      "projectJsonPath": "C:\\Users\\Nakahara Kazuma\\Documents\\N_HLG\\APP\\N_HLG\\project.json",
+      "projectPath": "C:\\Users\\Nakahara Kazuma\\LifeGame_HL\\N_HLG\\APP\\N_HLG\\N_HLG.csproj",
+      "projectJsonPath": "C:\\Users\\Nakahara Kazuma\\LifeGame_HL\\N_HLG\\APP\\N_HLG\\project.json",
       "packagesPath": "C:\\Users\\Nakahara Kazuma\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Nakahara Kazuma\\Documents\\N_HLG\\APP\\N_HLG\\obj\\",
+      "outputPath": "C:\\Users\\Nakahara Kazuma\\LifeGame_HL\\N_HLG\\APP\\N_HLG\\obj\\",
       "projectStyle": "ProjectJson",
       "configFilePaths": [
         "C:\\Users\\Nakahara Kazuma\\AppData\\Roaming\\NuGet\\NuGet.Config",

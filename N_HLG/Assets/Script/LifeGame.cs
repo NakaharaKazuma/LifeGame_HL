@@ -85,6 +85,7 @@ public class LifeGame : MonoBehaviour
 
     public Vector3Int Start_pos;
     public Vector3Int End_pos;
+    public Vector3Int Now_pos;
 
     public Vector3 Wall_Xpos;
     public Vector3 Wall_Ypos;
@@ -131,6 +132,8 @@ public class LifeGame : MonoBehaviour
         bugs = new Pattern();
         tg = new Vector3Int(0, 0, 0);
         block = gridSize / range;
+
+        Now_pos = new Vector3Int(0, 0, 0);
 
         state = new bool[gridSize, gridSize, gridSize];
 
@@ -202,12 +205,7 @@ public class LifeGame : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Joystick1Button9))
         {
-            //chenge_state = !chenge_state;
-            mood++;
-            if(mood > 2)
-            {
-                mood = 0;
-            }
+            chenge_state = !chenge_state;            
         }
 
         if (Input.GetKeyDown(KeyCode.Joystick1Button6) && active_Wall)
@@ -370,17 +368,21 @@ public class LifeGame : MonoBehaviour
         {
             StopAllCoroutines();
         }
-        /*
+        
         if (Input.GetKeyDown(KeyCode.Joystick1Button3))
         {
-            
+            pathting(Now_pos, copy);
         }
-
+        
         if (Input.GetKeyDown(KeyCode.Joystick1Button5))
         {
-
+            mood++;
+            if (mood > 2)
+            {
+                mood = 0;
+            }
         }
-        */
+        
         /*
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -1245,6 +1247,7 @@ public class LifeGame : MonoBehaviour
             {
                 case "x+":
                     tg_cell = cell[tg.x, pos(position.y), pos(position.z)];
+                    Now_pos = new Vector3Int (tg.x, pos(position.y), pos(position.z));
                     if (tapping)
                     {/*
                         if (cell[tg.x, pos(position.y), pos(position.z)].life != chenge_state)
@@ -1304,6 +1307,7 @@ public class LifeGame : MonoBehaviour
                     break;
                 case "x-":
                     tg_cell = cell[tg.x, pos(position.y), pos(position.z)];
+                    Now_pos = new Vector3Int(tg.x, pos(position.y), pos(position.z));
                     if (tapping)
                     {/*
                         if (cell[tg.x, pos(position.y), pos(position.z)].life != chenge_state)
@@ -1363,6 +1367,7 @@ public class LifeGame : MonoBehaviour
                     break;
                 case "y+":
                     tg_cell = cell[pos(position.x), tg.y, pos(position.z)];
+                    Now_pos = new Vector3Int(pos(position.x), tg.y, pos(position.z));
                     if (tapping)
                     {/*
                         if (cell[pos(position.x), tg.y, pos(position.z)].life != chenge_state)
@@ -1422,6 +1427,7 @@ public class LifeGame : MonoBehaviour
                     break;
                 case "y-":
                     tg_cell = cell[pos(position.x), tg.y, pos(position.z)];
+                    Now_pos = new Vector3Int(pos(position.x), tg.y, pos(position.z));
                     if (tapping)
                     {/*
                         if (cell[pos(position.x), tg.y, pos(position.z)].life != chenge_state)
@@ -1481,6 +1487,7 @@ public class LifeGame : MonoBehaviour
                     break;
                 case "z+":
                     tg_cell = cell[pos(position.x), pos(position.y), tg.z];
+                    Now_pos = new Vector3Int(pos(position.x), pos(position.y), tg.z);
                     if (tapping)
                     {/*
                         if (tg_cell.life != chenge_state)
@@ -1540,6 +1547,7 @@ public class LifeGame : MonoBehaviour
                     break;
                 case "z-":
                     tg_cell = cell[pos(position.x), pos(position.y), tg.z];
+                    Now_pos = new Vector3Int(pos(position.x), pos(position.y), tg.z);
                     if (tapping)
                     {/*
                         if (tg_cell.life != chenge_state)
@@ -1950,22 +1958,16 @@ public class LifeGame : MonoBehaviour
     // air-tap の指を上げた時に呼ばれる
 
     private void InteractionSourceReleased(InteractionSourceReleasedEventArgs ev)
-    {
+    {/*
+        Vector3 position;
         if (ev.state.sourcePose.TryGetPosition(out position))
         {
-
+            
             switch(cameradir.Cameradirection())
             {
                 case "x+":
                     End_pos = new Vector3Int(tg.x, pos(position.y), pos(position.z));
-                    if (mood == 0)
-                    {
-                        Boxing(Start_pos, End_pos);
-                    }
-                    else if (mood == 1)
-                    {
-                        
-                    }
+                    
                     break;
                 case "x-":
                     End_pos = new Vector3Int(tg.x, pos(position.y), pos(position.z));
@@ -2023,8 +2025,16 @@ public class LifeGame : MonoBehaviour
                     }
                     break;
             }            
+        }*/
+        if (mood == 0)
+        {
+            Boxing(Start_pos, Now_pos);
         }
-            tapping = false;
+        else if (mood == 1)
+        {
+            copy = Coping(Start_pos, Now_pos);
+        }
+        tapping = false;
         ab.text = "";        
     }
     /*

@@ -29,7 +29,7 @@ public class LifeGame : MonoBehaviour
     public UnityEngine.UI.Text Tag;
     public UnityEngine.UI.Text ab;
 
-    private const float CELL_SIZE = 0.025f;
+    private const float CELL_SIZE = 0.015f;
 
     public GameObject CellPrefab;
     public Material Cell_01;
@@ -37,6 +37,11 @@ public class LifeGame : MonoBehaviour
 
     public GameObject TargetPrefab;
     public GameObject Target;
+    public Material Cell_edit;
+    public Material Cell_box;
+    //public Material Cell_copy;
+
+    public GameObject Box_Start;
 
     public GameObject X;
     public GameObject Y;
@@ -75,7 +80,7 @@ public class LifeGame : MonoBehaviour
     public bool[,,] copy;
 
     public bool edit_state = true;
-    public bool change_depth = false;
+    public bool change_depth = true;
 
     public bool tapping = false;
     public bool boxing = false;
@@ -213,7 +218,15 @@ public class LifeGame : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Joystick1Button9))
         {
-            chenge_state = !chenge_state;            
+            if (mood == 1)
+            {
+                if (boxing)
+                {
+                    boxing = false;
+                    Destroy(Box_Start);
+                }                
+            }
+            chenge_state = !chenge_state;
         }
 
         if (Input.GetKeyDown(KeyCode.Joystick1Button6) && active_Wall)
@@ -224,6 +237,16 @@ public class LifeGame : MonoBehaviour
                     if (tg.x < gridSize - 1)
                     {
                         Wall_X.transform.position += new Vector3(CELL_SIZE, 0, 0);
+                        for (int w_y = 0; w_y < gridSize; w_y++)
+                        {
+                            for (int w_z = 0; w_z < gridSize; w_z++)
+                            {
+                                if (cell[tg.x, w_y, w_z].life)
+                                {
+                                    cell[tg.x, w_y, w_z].obj.GetComponent<Renderer>().material = Cell_02;
+                                }
+                            }
+                        }
                         tg.x++;
                     }
                     break;
@@ -231,6 +254,16 @@ public class LifeGame : MonoBehaviour
                     if (tg.x > 0)
                     {
                         Wall_X.transform.position -= new Vector3(CELL_SIZE, 0, 0);
+                        for (int w_y = 0; w_y < gridSize; w_y++)
+                        {
+                            for (int w_z = 0; w_z < gridSize; w_z++)
+                            {
+                                if (cell[tg.x, w_y, w_z].life)
+                                {
+                                    cell[tg.x, w_y, w_z].obj.GetComponent<Renderer>().material = Cell_02;
+                                }
+                            }
+                        }
                         tg.x--;
                     }
                     break;
@@ -238,6 +271,16 @@ public class LifeGame : MonoBehaviour
                     if (tg.y < gridSize - 1)
                     {
                         Wall_Y.transform.position += new Vector3(0, CELL_SIZE, 0);
+                        for (int w_x = 0; w_x < gridSize; w_x++)
+                        {
+                            for (int w_z = 0; w_z < gridSize; w_z++)
+                            {
+                                if (cell[w_x, tg.y, w_z].life)
+                                {
+                                    cell[w_x, tg.y, w_z].obj.GetComponent<Renderer>().material = Cell_02;
+                                }
+                            }
+                        }
                         tg.y++;
                     }
                     break;
@@ -245,6 +288,16 @@ public class LifeGame : MonoBehaviour
                     if (tg.y > 0)
                     {
                         Wall_Y.transform.position -= new Vector3(0, CELL_SIZE, 0);
+                        for (int w_x = 0; w_x < gridSize; w_x++)
+                        {
+                            for (int w_z = 0; w_z < gridSize; w_z++)
+                            {
+                                if (cell[w_x, tg.y, w_z].life)
+                                {
+                                    cell[w_x, tg.y, w_z].obj.GetComponent<Renderer>().material = Cell_02;
+                                }
+                            }
+                        }
                         tg.y--;
                     }
                     break;
@@ -269,10 +322,21 @@ public class LifeGame : MonoBehaviour
                     if (tg.z > 0)
                     {
                         Wall_Z.transform.position -= new Vector3(0, 0, CELL_SIZE);
+                        for (int w_y = 0; w_y < gridSize; w_y++)
+                        {
+                            for (int w_x = 0; w_x < gridSize; w_x++)
+                            {
+                                if (cell[w_x, w_y, tg.z].life)
+                                {
+                                    cell[w_x, w_y, tg.z].obj.GetComponent<Renderer>().material = Cell_02;
+                                }
+                            }
+                        }
                         tg.z--;
                     }
                     break;
             }
+            Tag.text = "(" + tg.x.ToString() + ", " + tg.y.ToString() + ", " + tg.z.ToString() + ")";
         }
 
         if (Input.GetKeyDown(KeyCode.Joystick1Button7) && active_Wall)
@@ -283,6 +347,16 @@ public class LifeGame : MonoBehaviour
                     if (tg.x > 0)
                     {
                         Wall_X.transform.position -= new Vector3(CELL_SIZE, 0, 0);
+                        for (int w_y = 0; w_y < gridSize; w_y++)
+                        {
+                            for (int w_z = 0; w_z < gridSize; w_z++)
+                            {
+                                if (cell[tg.x, w_y, w_z].life)
+                                {
+                                    cell[tg.x, w_y, w_z].obj.GetComponent<Renderer>().material = Cell_01;
+                                }
+                            }
+                        }
                         tg.x--;
                     }
                     break;
@@ -290,6 +364,16 @@ public class LifeGame : MonoBehaviour
                     if (tg.x < gridSize - 1)
                     {
                         Wall_X.transform.position += new Vector3(CELL_SIZE, 0, 0);
+                        for (int w_y = 0; w_y < gridSize; w_y++)
+                        {
+                            for (int w_z = 0; w_z < gridSize; w_z++)
+                            {
+                                if (cell[tg.x, w_y, w_z].life)
+                                {
+                                    cell[tg.x, w_y, w_z].obj.GetComponent<Renderer>().material = Cell_01;
+                                }
+                            }
+                        }
                         tg.x++;
                     }
                     break;
@@ -297,6 +381,16 @@ public class LifeGame : MonoBehaviour
                     if (tg.y > 0)
                     {
                         Wall_Y.transform.position -= new Vector3(0, CELL_SIZE, 0);
+                        for (int w_x = 0; w_x < gridSize; w_x++)
+                        {
+                            for (int w_z = 0; w_z < gridSize; w_z++)
+                            {
+                                if (cell[w_x, tg.y, w_z].life)
+                                {
+                                    cell[w_x, tg.y, w_z].obj.GetComponent<Renderer>().material = Cell_01;
+                                }
+                            }
+                        }
                         tg.y--;
                     }
                     break;
@@ -304,6 +398,16 @@ public class LifeGame : MonoBehaviour
                     if (tg.y < gridSize - 1)
                     {
                         Wall_Y.transform.position += new Vector3(0, CELL_SIZE, 0);
+                        for (int w_x = 0; w_x < gridSize; w_x++)
+                        {
+                            for (int w_z = 0; w_z < gridSize; w_z++)
+                            {
+                                if (cell[w_x, tg.y, w_z].life)
+                                {
+                                    cell[w_x, tg.y, w_z].obj.GetComponent<Renderer>().material = Cell_01;
+                                }
+                            }
+                        }
                         tg.y++;
                     }
                     break;
@@ -311,6 +415,7 @@ public class LifeGame : MonoBehaviour
                     if (tg.z > 0)
                     {
                         Wall_Z.transform.position -= new Vector3(0, 0, CELL_SIZE);
+                        tg.z--;
                         for (int w_y = 0; w_y < gridSize; w_y++)
                         {
                             for (int w_x = 0; w_x < gridSize; w_x++)
@@ -321,23 +426,75 @@ public class LifeGame : MonoBehaviour
                                 }
                             }
                         }
-                        tg.z--;
                     }
                     break;
                 case "z-":
                     if (tg.z < gridSize - 1)
                     {
                         Wall_Z.transform.position += new Vector3(0, 0, CELL_SIZE);
+                        for (int w_y = 0; w_y < gridSize; w_y++)
+                        {
+                            for (int w_x = 0; w_x < gridSize; w_x++)
+                            {
+                                if (cell[w_x, w_y, tg.z].life)
+                                {
+                                    cell[w_x, w_y, tg.z].obj.GetComponent<Renderer>().material = Cell_01;
+                                }
+                            }
+                        }
                         tg.z++;
                     }
                     break;
             }
+            Tag.text = "(" + tg.x.ToString() + ", " + tg.y.ToString() + ", " + tg.z.ToString() + ")";
         }
 
         if (Input.GetKeyDown(KeyCode.Joystick1Button14))
         {
             direction = cameradir.Cameradirection();
+            switch (direction)
+            {
+                case "x+":
+                    Wall_X.SetActive(true);
+                    Wall_Y.SetActive(false);
+                    Wall_Z.SetActive(false);
+                    break;
+                case "x-":
+                    Wall_X.SetActive(true);
+                    Wall_Y.SetActive(false);
+                    Wall_Z.SetActive(false);
+                    break;
+                case "y+":
+                    Wall_X.SetActive(false);
+                    Wall_Y.SetActive(true);
+                    Wall_Z.SetActive(false);
+                    break;
+                case "y-":
+                    Wall_X.SetActive(false);
+                    Wall_Y.SetActive(true);
+                    Wall_Z.SetActive(false);
+                    break;
+                case "z+":
+                    Wall_X.SetActive(false);
+                    Wall_Y.SetActive(false);
+                    Wall_Z.SetActive(true);
+                    break;
+                case "z-":
+                    Wall_X.SetActive(false);
+                    Wall_Y.SetActive(false);
+                    Wall_Z.SetActive(true);
+                    break;
+            }
+            active_Wall = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Joystick1Button8))
+        {
             if (active_Wall)
+            {
+                Clean_cell();
+            }
+            else
             {
                 switch (direction)
                 {
@@ -373,14 +530,6 @@ public class LifeGame : MonoBehaviour
                         break;
                 }
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Joystick1Button8))
-        {
-            if (active_Wall)
-            {
-                Clean_cell();
-            }
             active_Wall = !active_Wall;
         }
 
@@ -391,20 +540,20 @@ public class LifeGame : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            Birth_bug(bugs.q0, bugs.q0_x, bugs.q0_y, bugs.q0_z, new int[] { 20, 20, 20 });
+            Birth_bug(bugs.q0, bugs.q0_x, bugs.q0_y, bugs.q0_z, new int[] { 48, 48, 48 });
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha8))
         {
-            Birth_bug(bugs.bug, bugs.bug_x, bugs.bug_y, bugs.bug_z, new int[] { 17, 35, 16 });
-            Birth_bug(bugs.q1, bugs.q1_x, bugs.q1_y, bugs.q1_z, new int[] { 20, 20, 20 });
+            Birth_bug(bugs.bug, bugs.bug_x, bugs.bug_y, bugs.bug_z, new int[] { 45, 63, 44 });
+            Birth_bug(bugs.q1, bugs.q1_x, bugs.q1_y, bugs.q1_z, new int[] { 48, 48, 48 });
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            Birth_bug(bugs.p0, bugs.p0_x, bugs.p0_y, bugs.p0_z, new int[] { 10, 11, 10 });
-            Birth_bug(bugs.p0, bugs.p0_x, bugs.p0_y, bugs.p0_z, new int[] { 10, 11, 28 });
-            Birth_bug(bugs.bug, bugs.bug_x, bugs.bug_y, bugs.bug_z, new int[] { 23, 10, 20 });
+            Birth_bug(bugs.p0, bugs.p0_x, bugs.p0_y, bugs.p0_z, new int[] { 48, 49, 48 });
+            Birth_bug(bugs.p0, bugs.p0_x, bugs.p0_y, bugs.p0_z, new int[] { 48, 49, 66 });
+            Birth_bug(bugs.bug, bugs.bug_x, bugs.bug_y, bugs.bug_z, new int[] { 61, 48, 58 });
         }
 
         if (Input.GetKeyDown(KeyCode.H) || Input.GetKeyDown(KeyCode.Joystick1Button2))
@@ -426,18 +575,31 @@ public class LifeGame : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Joystick1Button5))
         {
             mood++;
-            if (mood > 3)
+            if (mood > 2)
             {
                 mood = 0;
-            }
+                Target.GetComponent<Renderer>().material = Cell_edit;
+            } else if(mood == 1)
+            {
+                Target.GetComponent<Renderer>().material = Cell_box;
+            }/* else if (mood == 2)
+            {
+                Target.GetComponent<Renderer>().material = Cell_01;
+            }*/
         }
-        
+
         /*
         if (Input.GetKeyDown(KeyCode.C))
         {
             Clean_cell();
         }
         */
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            Change_rule();            
+        }
+
         if (Input.GetKeyDown(KeyCode.T))
         {
             Scan();
@@ -451,27 +613,15 @@ public class LifeGame : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             string data = "";
-            for (int x0 = 0; x0 < block; x0++)
+            for (int a = 0; a < gridSize; a++)
             {
-                for (int y0 = 0; y0 < block; y0++)
+                for (int b = 0; b < gridSize; b++)
                 {
-                    for (int z0 = 0; z0 < block; z0++)
+                    for (int c = 0; c < gridSize; c++)
                     {
-                        if (able[x0, y0, z0])
+                        if (cell[a, b, c].life)
                         {
-                            for (int a = x0 * range; a < (x0 + 1) * range; a++)
-                            {
-                                for (int b = y0 * range; b < (y0 + 1) * range; b++)
-                                {
-                                    for (int c = z0 * range; c < (z0 + 1) * range; c++)
-                                    {
-                                        if (cell[a, b, c].life)
-                                        {
-                                            data += /*"[" + */a.ToString() + "," + b.ToString() + "," + b.ToString() + "\n";
-                                        }
-                                    }
-                                }
-                            }
+                            data += a.ToString() + "," + b.ToString() + "," + c.ToString() + ",\n";
                         }
                     }
                 }
@@ -480,6 +630,7 @@ public class LifeGame : MonoBehaviour
             {
                 if (result != null)
                 {
+                    result.WriteBytes(System.Text.Encoding.ASCII.GetBytes(data));
                     result.WriteText(data);
                 }
             });
@@ -490,104 +641,40 @@ public class LifeGame : MonoBehaviour
         {
             WSANativeFilePicker.PickSingleFile("Select", WSAPickerViewMode.Thumbnail, WSAPickerLocationId.PicturesLibrary, new[] { ".txt" }, result =>
             {
-                string fileString = "";
                 //string data = "";
 
                 if (result != null)
                 {
+                    byte[] fileBytes = result.ReadBytes();
 #pragma warning disable 0219
-                    fileString = result.ReadText();
+                    string fileString = result.ReadText();
 #pragma warning restore 0219
-                    /*
-                    int x = 20;
-                    int y = 20;
-                    int z = 20;
-                    int i = 0;
-                    while (true)
+                    string num = "";
+                    int[] zahyo = new int[3];
+                    int purin = 0;
+                    for (int i = 0; i < fileString.Length; i++)
                     {
-                        y = 20;
-                        while (true)
+                        if (fileString[i] >= '0' && fileString[i] <= '9')
                         {
-                            z = 20;
-                            while (true)
-                            {
-                                if (fileString[i] == '0')
-                                {
-                                    if (cell[x, y, z].life)
-                                    {
-                                        Destroy(cell[x, y, z].obj);
-                                        cell[x, y, z].life = false;
-                                        state[x, y, z] = false;
-                                        hush[x, y, z, memory_time] = false;
-                                    }
-                                    z++;
-                                    i++;
-                                }
-                                else if (fileString[i] == '1')
-                                {
-                                    if (!cell[x, y, z].life)
-                                    {
-                                        cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
-                                        cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;
-                                        cell[x, y, z].life = true;
-                                        state[x, y, z] = true;
-                                        hush[x, y, z, memory_time] = true;
-                                    }
-                                    z++;
-                                    i++;
-                                }
-                                else if (fileString[i] == '\n')
-                                {
-                                    i++;
-                                    break;
-                                }
-                            }
-                            if (fileString[i] == '\n')
-                            {
-                                i++;
-                                break;
-                            }
-                            else if (fileString[i] == '0' || fileString[i] == '1')
-                            {
-                                y++;
-                            }
+                            num += fileString[i];
                         }
-                        if (fileString[i] == '0' || fileString[i] == '1')
+                        else if (fileString[i] == ',')
                         {
-                            x++;
-                        }
-                        else
+                            zahyo[purin] = int.Parse(num);
+                            purin++;
+                            num = "";
+                        }                        
+                        else if (purin == 3)
                         {
-                            break;
+                            cell[zahyo[0], zahyo[1], zahyo[2]].obj = Instantiate(CellPrefab) as GameObject;
+                            cell[zahyo[0], zahyo[1], zahyo[2]].obj.transform.localPosition = cell[zahyo[0], zahyo[1], zahyo[2]].Pos;
+                            cell[zahyo[0], zahyo[1], zahyo[2]].life = true;
+                            state[zahyo[0], zahyo[1], zahyo[2]] = true;
+                            hush[zahyo[0], zahyo[1], zahyo[2], memory_time] = true;
+                            purin = 0;
                         }
-                    }*/
-                }
-                string num = "";
-                int[] zahyo = new int[3];
-                int purin = 0;
-                for (int i = 0; i < fileString.Length; i++)
-                {
-                    if (fileString[i] >= '0' && fileString[i] <= '9')
-                    {
-                        num += fileString[i];
                     }
-                    else if (fileString[i] == ',')
-                    {
-                        zahyo[purin] = int.Parse(num);
-                        purin++;
-                        num = "";
-                    }
-                    else if (fileString[i] == '\n')
-                    {
-                        zahyo[purin] = int.Parse(num);
-                        cell[zahyo[0], zahyo[1], zahyo[2]].obj = Instantiate(CellPrefab) as GameObject;
-                        cell[zahyo[0], zahyo[1], zahyo[2]].obj.transform.localPosition = cell[zahyo[0], zahyo[1], zahyo[2]].Pos;
-                        cell[zahyo[0], zahyo[1], zahyo[2]].life = true;
-                        state[zahyo[0], zahyo[1], zahyo[2]] = true;
-                        hush[zahyo[0], zahyo[1], zahyo[2], memory_time] = true;
-                        purin = 0;
-                    }
-                }
+                }                
             });
 
         }
@@ -675,6 +762,41 @@ public class LifeGame : MonoBehaviour
                 }
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            System.Random rnd = new System.Random();
+            int randomNumber;
+            for (int x = 25; x < 75; x++)
+            {
+                for (int y = 25; y < 75; y++)
+                {
+                    for (int z = 25; z < 75; z++)
+                    {
+                        randomNumber = rnd.Next(500);
+                        if((randomNumber <= 1) != cell[x, y, z].life)
+                        {
+                            if (cell[x, y, z].life)
+                            {
+                                Destroy(cell[x, y, z].obj);
+                                cell[x, y, z].life = false;
+                                state[x, y, z] = false;
+                                hush[x, y, z, memory_time] = false;
+                            }
+                            else
+                            {
+                                cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
+                                cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;
+                                cell[x, y, z].life = true;
+                                state[x, y, z] = true;
+                                hush[x, y, z, memory_time] = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         /*
         if (active_Wall)
         {
@@ -711,9 +833,7 @@ public class LifeGame : MonoBehaviour
                     Wall_Z.SetActive(true);
                     break;
             }
-        }*/
-
-        Tag.text = "(" + tg.x.ToString() + ", " + tg.y.ToString() + ", " + tg.z.ToString() + ")";
+        }*/        
     }
 
     private IEnumerator LifeGameCoroutine()
@@ -831,26 +951,26 @@ public class LifeGame : MonoBehaviour
                             for (int b = y0 * range; b < (y0 + 1) * range; b++)
                             {
                                 for (int c = z0 * range; c < (z0 + 1) * range; c++)
-                                {
-                                    if (cell[a, b, c].life)
-                                    {
-                                        if (!state[a, b, c])
-                                        {
-                                            Destroy(cell[a, b, c].obj);
-                                        }
-                                    }
-                                    else
+                                {/*
+                                    if (!cell[a, b, c].life)
                                     {
                                         if (state[a, b, c])
                                         {
                                             cell[a, b, c].obj = Instantiate(CellPrefab) as GameObject;
                                             cell[a, b, c].obj.transform.localPosition = cell[a, b, c].Pos;
-                                            if (c < tg.z)
+                                            if (c < tg.z && active_Wall)
                                             {
                                                 cell[a, b, c].obj.GetComponent<Renderer>().material = Cell_02;
                                             }
                                         }
                                     }
+                                    else
+                                    {
+                                        if(!state[a, b, c])
+                                        {
+                                            Destroy(cell[a, b, c].obj);
+                                        }
+                                    }*/
                                     cell[a, b, c].life = state[a, b, c];
                                     hush[a, b, c, memory_time] = state[a, b, c];
                                     if (cell[a, b, c].life)
@@ -909,18 +1029,58 @@ public class LifeGame : MonoBehaviour
                                 if (sum < rule[3] || sum > rule[4])
                                 {
                                     state[x, y, z] = false;
-                                    //Destroy(cell[x, y, z].obj);
-                                    //cell[x, y, z].life = false;
+                                    Destroy(cell[x, y, z].obj);
                                 }
                             }
                             else
                             {
                                 if (sum >= rule[1] && sum <= rule[2])
                                 {
-                                    state[x, y, z] = true;/*
+                                    state[x, y, z] = true;
                                     cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
-                                    cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;*/
-                                    //cell[x, y, z].life = true;
+                                    cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;
+                                    if (active_Wall)
+                                    {
+                                        switch (direction)
+                                        {
+                                            case "x+":
+                                                if (x < tg.x)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "x-":
+                                                if (x > tg.x)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "y+":
+                                                if (y < tg.y)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "y-":
+                                                if (y > tg.y)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "z+":
+                                                if (z < tg.z)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "z-":
+                                                if (z > tg.z)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                        }
+                                    }
                                 }
                             }
                             if (z != end_z - 1)
@@ -951,18 +1111,58 @@ public class LifeGame : MonoBehaviour
                                 if (sum < rule[3] || sum > rule[4])
                                 {
                                     state[x, y, z] = false;
-                                    //Destroy(cell[x, y, z].obj);
-                                    //cell[x, y, z].life = false;
+                                    Destroy(cell[x, y, z].obj);
                                 }
                             }
                             else
                             {
                                 if (sum >= rule[1] && sum <= rule[2])
                                 {
-                                    state[x, y, z] = true;/*
+                                    state[x, y, z] = true;
                                     cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
-                                    cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;*/
-                                    //cell[x, y, z].life = true;
+                                    cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;
+                                    if (active_Wall)
+                                    {
+                                        switch (direction)
+                                        {
+                                            case "x+":
+                                                if (x < tg.x)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "x-":
+                                                if (x > tg.x)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "y+":
+                                                if (y < tg.y)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "y-":
+                                                if (y > tg.y)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "z+":
+                                                if (z < tg.z)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "z-":
+                                                if (z > tg.z)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                        }
+                                    }
                                 }
                             }
                             if (z != start_z)
@@ -1025,18 +1225,58 @@ public class LifeGame : MonoBehaviour
                                 if (sum < rule[3] || sum > rule[4])
                                 {
                                     state[x, y, z] = false;
-                                    //Destroy(cell[x, y, z].obj);
-                                    //cell[x, y, z].life = false;
+                                    Destroy(cell[x, y, z].obj);
                                 }
                             }
                             else
                             {
                                 if (sum >= rule[1] && sum <= rule[2])
                                 {
-                                    state[x, y, z] = true;/*
+                                    state[x, y, z] = true;
                                     cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
-                                    cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;*/
-                                    //cell[x, y, z].life = true;
+                                    cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;
+                                    if (active_Wall)
+                                    {
+                                        switch (direction)
+                                        {
+                                            case "x+":
+                                                if (x < tg.x)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "x-":
+                                                if (x > tg.x)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "y+":
+                                                if (y < tg.y)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "y-":
+                                                if (y > tg.y)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "z+":
+                                                if (z < tg.z)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "z-":
+                                                if (z > tg.z)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                        }
+                                    }
                                 }
                             }
                             if (z != end_z - 1)
@@ -1067,18 +1307,58 @@ public class LifeGame : MonoBehaviour
                                 if (sum < rule[3] || sum > rule[4])
                                 {
                                     state[x, y, z] = false;
-                                    //Destroy(cell[x, y, z].obj);
-                                    //cell[x, y, z].life = false;
+                                    Destroy(cell[x, y, z].obj);
                                 }
                             }
                             else
                             {
                                 if (sum >= rule[1] && sum <= rule[2])
                                 {
-                                    state[x, y, z] = true;/*
+                                    state[x, y, z] = true;
                                     cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
-                                    cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;*/
-                                    //cell[x, y, z].life = true;
+                                    cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;
+                                    if (active_Wall)
+                                    {
+                                        switch (direction)
+                                        {
+                                            case "x+":
+                                                if (x < tg.x)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "x-":
+                                                if (x > tg.x)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "y+":
+                                                if (y < tg.y)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "y-":
+                                                if (y > tg.y)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "z+":
+                                                if (z < tg.z)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                            case "z-":
+                                                if (z > tg.z)
+                                                {
+                                                    cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                }
+                                                break;
+                                        }
+                                    }
                                 }
                             }
                             if (z != start_z)
@@ -1200,7 +1480,7 @@ public class LifeGame : MonoBehaviour
                             cell[start[0] + y, start[1] + x, start[2] + z].life = true;
                             state[start[0] + y, start[1] + x, start[2] + z] = true;
                             hush[start[0] + y, start[1] + x, start[2] + z, memory_time] = true;
-                            if (start[2] + z < tg.z)
+                            if ((start[2] + z < tg.z) && active_Wall)
                             {
                                 cell[start[0] + y, start[1] + x, start[2] + z].obj.GetComponent<Renderer>().material = Cell_02;
                             }
@@ -1268,7 +1548,17 @@ public class LifeGame : MonoBehaviour
         else
         {
             float pos = a / CELL_SIZE;
-            return (int)pos;
+            if((int)pos >= gridSize)
+            {
+                return (gridSize - 1);
+            } else if((int)pos < 0)
+            {
+                return 0;
+            } else
+            {
+                return (int)pos;
+            }
+            
         }
     }
 
@@ -1321,9 +1611,9 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    if (chenge_state)
+                    if (chenge_state && (mood == 0))
                     {
-                        if (tg_cell.life)
+                        if ((tg_cell.life) && (tg.x != 0))
                         {
                             int j = 1;
                             while (true)
@@ -1384,9 +1674,9 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    if (chenge_state)
+                    if (chenge_state && (mood == 0))
                     {
-                        if (tg_cell.life)
+                        if (tg_cell.life && (tg.x != gridSize -1))
                         {
                             int j = 1;
                             while (true)
@@ -1447,9 +1737,9 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    if (chenge_state)
+                    if (chenge_state && (mood == 0))
                     {
-                        if (tg_cell.life)
+                        if (tg_cell.life && (tg.y != 0))
                         {
                             int j = 1;
                             while (true)
@@ -1510,9 +1800,9 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    if (chenge_state)
+                    if (chenge_state && (mood == 0))
                     {
-                        if (tg_cell.life)
+                        if (tg_cell.life && (tg.y != gridSize-1))
                         {
                             int j = 1;
                             while (true)
@@ -1573,9 +1863,9 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    if (chenge_state)
+                    if (chenge_state && (mood == 0))
                     {
-                        if (tg_cell.life)
+                        if (tg_cell.life && (tg.z != 0))
                         {
                             int j = 1;
                             while (true)
@@ -1636,9 +1926,9 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    if (chenge_state)
+                    if (chenge_state && (mood == 0))
                     {
-                        if (tg_cell.life)
+                        if (tg_cell.life && (tg.z != gridSize -1))
                         {
                             int j = 1;
                             while (true)
@@ -1682,7 +1972,6 @@ public class LifeGame : MonoBehaviour
             }
             pre_position = position;
         }
-
     }
 
     // air-tap の指を下ろした時に呼ばれる
@@ -1692,58 +1981,7 @@ public class LifeGame : MonoBehaviour
         {
             switch (direction)
             {
-                case "x+":/*
-                    if (!chenge_state)
-                    {
-                        if (cell[tg.x, pos(position.y), pos(position.z)].life)
-                        {
-                            Destroy(cell[tg.x, pos(position.y), pos(position.z)].obj);
-                            cell[tg.x, pos(position.y), pos(position.z)].life = false;
-                            state[tg.x, pos(position.y), pos(position.z)] = false;
-                            hush[tg.x, pos(position.y), pos(position.z), memory_time] = false;
-                            //chenge_state = false;
-                        }
-                    }
-                    else
-                    {
-                        if (!cell[tg.x, pos(position.y), pos(position.z)].life)
-                        {
-                            cell[tg.x, pos(position.y), pos(position.z)].obj = Instantiate(CellPrefab) as GameObject;
-                            cell[tg.x, pos(position.y), pos(position.z)].obj.transform.localPosition = cell[tg.x, pos(position.y), pos(position.z)].Pos;
-                            cell[tg.x, pos(position.y), pos(position.z)].life = true;
-                            state[tg.x, pos(position.y), pos(position.z)] = true;
-                            hush[tg.x, pos(position.y), pos(position.z), memory_time] = true;
-                            //chenge_state = true;
-                        }
-                        else
-                        {
-                            int i = 1;
-                            while (true)
-                            {
-                                if (cell[tg.x - i, pos(position.y), pos(position.z)].life)
-                                {
-                                    if (tg.x - i > 0)
-                                    {
-                                        i++;
-                                    }
-                                    else
-                                    {
-                                        break;
-                                    }
-                                }
-                                else
-                                {
-                                    cell[tg.x - i, pos(position.y), pos(position.z)].obj = Instantiate(CellPrefab) as GameObject;
-                                    cell[tg.x - i, pos(position.y), pos(position.z)].obj.transform.localPosition = cell[tg.x - i, pos(position.y), pos(position.z)].Pos;
-                                    cell[tg.x - i, pos(position.y), pos(position.z)].life = true;
-                                    state[tg.x - i, pos(position.y), pos(position.z)] = true;
-                                    hush[tg.x - i, pos(position.y), pos(position.z), memory_time] = true;
-                                    //chenge_state = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }*/
+                case "x+":
                     if(mood == 0)
                     {
                         if (!chenge_state)
@@ -1802,12 +2040,15 @@ public class LifeGame : MonoBehaviour
                         if (boxing)
                         {
                             End_pos = new Vector3Int(tg.x, pos(position.y), pos(position.z));
+                            Destroy(Box_Start);
                             Boxing(Start_pos, End_pos);
                             boxing = false;
                         }
                         else
                         {
                             Start_pos = new Vector3Int(tg.x, pos(position.y), pos(position.z));
+                            Box_Start = Instantiate(TargetPrefab) as GameObject;
+                            Box_Start.transform.localPosition = cell[Start_pos.x, Start_pos.y, Start_pos.z].Pos;
                             boxing = true;
                         }
                     } else if(mood == 2)
@@ -1825,58 +2066,7 @@ public class LifeGame : MonoBehaviour
                         }
                     }
                     break;
-                case "x-":/*
-                    if (!chenge_state)
-                    {
-                        if (cell[tg.x, pos(position.y), pos(position.z)].life)
-                        {
-                            Destroy(cell[tg.x, pos(position.y), pos(position.z)].obj);
-                            cell[tg.x, pos(position.y), pos(position.z)].life = false;
-                            state[tg.x, pos(position.y), pos(position.z)] = false;
-                            hush[tg.x, pos(position.y), pos(position.z), memory_time] = false;
-                            //chenge_state = false;
-                        }
-                    }
-                    else
-                    {
-                        if (!cell[tg.x, pos(position.y), pos(position.z)].life)
-                        {
-                            cell[tg.x, pos(position.y), pos(position.z)].obj = Instantiate(CellPrefab) as GameObject;
-                            cell[tg.x, pos(position.y), pos(position.z)].obj.transform.localPosition = cell[tg.x, pos(position.y), pos(position.z)].Pos;
-                            cell[tg.x, pos(position.y), pos(position.z)].life = true;
-                            state[tg.x, pos(position.y), pos(position.z)] = true;
-                            hush[tg.x, pos(position.y), pos(position.z), memory_time] = true;
-                            //chenge_state = true;
-                        }
-                        else
-                        {
-                            int i = 1;
-                            while (true)
-                            {
-                                if (cell[tg.x + i, pos(position.y), pos(position.z)].life)
-                                {
-                                    if (tg.x + i < gridSize - 1)
-                                    {
-                                        i++;
-                                    }
-                                    else
-                                    {
-                                        break;
-                                    }
-                                }
-                                else
-                                {
-                                    cell[tg.x + i, pos(position.y), pos(position.z)].obj = Instantiate(CellPrefab) as GameObject;
-                                    cell[tg.x + i, pos(position.y), pos(position.z)].obj.transform.localPosition = cell[tg.x + i, pos(position.y), pos(position.z)].Pos;
-                                    cell[tg.x + i, pos(position.y), pos(position.z)].life = true;
-                                    state[tg.x + i, pos(position.y), pos(position.z)] = true;
-                                    hush[tg.x + i, pos(position.y), pos(position.z), memory_time] = true;
-                                    //chenge_state = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }*/
+                case "x-":
                     if (mood == 0)
                     {
                         if (!chenge_state)
@@ -1936,12 +2126,15 @@ public class LifeGame : MonoBehaviour
                         if (boxing)
                         {
                             End_pos = new Vector3Int(tg.x, pos(position.y), pos(position.z));
+                            Destroy(Box_Start);
                             Boxing(Start_pos, End_pos);
                             boxing = false;
                         }
                         else
                         {
                             Start_pos = new Vector3Int(tg.x, pos(position.y), pos(position.z));
+                            Box_Start = Instantiate(TargetPrefab) as GameObject;
+                            Box_Start.transform.localPosition = cell[Start_pos.x, Start_pos.y, Start_pos.z].Pos;
                             boxing = true;
                         }
                     }
@@ -1960,58 +2153,7 @@ public class LifeGame : MonoBehaviour
                         }
                     }
                     break;
-                case "y+":/*
-                    if (!chenge_state)
-                    {
-                        if (cell[pos(position.x), tg.y, pos(position.z)].life)
-                        {
-                            Destroy(cell[pos(position.x), tg.y, pos(position.z)].obj);
-                            cell[pos(position.x), tg.y, pos(position.z)].life = false;
-                            state[pos(position.x), tg.y, pos(position.z)] = false;
-                            hush[pos(position.x), tg.y, pos(position.z), memory_time] = false;
-                            //chenge_state = false;
-                        }
-                    }
-                    else
-                    {
-                        if (!cell[pos(position.x), tg.y, pos(position.z)].life)
-                        {
-                            cell[pos(position.x), tg.y, pos(position.z)].obj = Instantiate(CellPrefab) as GameObject;
-                            cell[pos(position.x), tg.y, pos(position.z)].obj.transform.localPosition = cell[pos(position.x), tg.y, pos(position.z)].Pos;
-                            cell[pos(position.x), tg.y, pos(position.z)].life = true;
-                            state[pos(position.x), tg.y, pos(position.z)] = true;
-                            hush[pos(position.x), tg.y, pos(position.z), memory_time] = true;
-                            //chenge_state = true;
-                        }
-                        else
-                        {
-                            int i = 1;
-                            while (true)
-                            {
-                                if (cell[pos(position.x), tg.y - i, pos(position.z)].life)
-                                {
-                                    if (tg.y - i > 0)
-                                    {
-                                        i++;
-                                    }
-                                    else
-                                    {
-                                        break;
-                                    }
-                                }
-                                else
-                                {
-                                    cell[pos(position.x), tg.y - i, pos(position.z)].obj = Instantiate(CellPrefab) as GameObject;
-                                    cell[pos(position.x), tg.y - i, pos(position.z)].obj.transform.localPosition = cell[pos(position.x), tg.y - i, pos(position.z)].Pos;
-                                    cell[pos(position.x), tg.y - i, pos(position.z)].life = true;
-                                    state[pos(position.x), tg.y - i, pos(position.z)] = true;
-                                    hush[pos(position.x), tg.y - i, pos(position.z), memory_time] = true;
-                                    //chenge_state = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }*/
+                case "y+":
                     if (mood == 0)
                     {
                         if (!chenge_state)
@@ -2071,12 +2213,15 @@ public class LifeGame : MonoBehaviour
                         if (boxing)
                         {
                             End_pos = new Vector3Int(pos(position.x), tg.y, pos(position.z));
+                            Destroy(Box_Start);
                             Boxing(Start_pos, End_pos);
                             boxing = false;
                         }
                         else
                         {
                             Start_pos = new Vector3Int(pos(position.x), tg.y, pos(position.z));
+                            Box_Start = Instantiate(TargetPrefab) as GameObject;
+                            Box_Start.transform.localPosition = cell[Start_pos.x, Start_pos.y, Start_pos.z].Pos;
                             boxing = true;
                         }
                     }
@@ -2095,58 +2240,7 @@ public class LifeGame : MonoBehaviour
                         }
                     }
                     break;
-                case "y-":/*
-                    if (!chenge_state)
-                    {
-                        if (cell[pos(position.x), tg.y, pos(position.z)].life)
-                        {
-                            Destroy(cell[pos(position.x), tg.y, pos(position.z)].obj);
-                            cell[pos(position.x), tg.y, pos(position.z)].life = false;
-                            state[pos(position.x), tg.y, pos(position.z)] = false;
-                            hush[pos(position.x), tg.y, pos(position.z), memory_time] = false;
-                            //chenge_state = false;
-                        }
-                    }
-                    else
-                    {
-                        if (!cell[pos(position.x), tg.y, pos(position.z)].life)
-                        {
-                            cell[pos(position.x), tg.y, pos(position.z)].obj = Instantiate(CellPrefab) as GameObject;
-                            cell[pos(position.x), tg.y, pos(position.z)].obj.transform.localPosition = cell[pos(position.x), tg.y, pos(position.z)].Pos;
-                            cell[pos(position.x), tg.y, pos(position.z)].life = true;
-                            state[pos(position.x), tg.y, pos(position.z)] = true;
-                            hush[pos(position.x), tg.y, pos(position.z), memory_time] = true;
-                            //chenge_state = true;
-                        }
-                        else
-                        {
-                            int i = 1;
-                            while (true)
-                            {
-                                if (cell[pos(position.x), tg.y + i, pos(position.z)].life)
-                                {
-                                    if (tg.y + i < gridSize - 1)
-                                    {
-                                        i++;
-                                    }
-                                    else
-                                    {
-                                        break;
-                                    }
-                                }
-                                else
-                                {
-                                    cell[pos(position.x), tg.y + i, pos(position.z)].obj = Instantiate(CellPrefab) as GameObject;
-                                    cell[pos(position.x), tg.y + i, pos(position.z)].obj.transform.localPosition = cell[pos(position.x), tg.y + i, pos(position.z)].Pos;
-                                    cell[pos(position.x), tg.y + i, pos(position.z)].life = true;
-                                    state[pos(position.x), tg.y + i, pos(position.z)] = true;
-                                    hush[pos(position.x), tg.y + i, pos(position.z), memory_time] = true;
-                                    //chenge_state = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }*/
+                case "y-":
                     if (mood == 0)
                     {
                         if (!chenge_state)
@@ -2206,12 +2300,15 @@ public class LifeGame : MonoBehaviour
                         if (boxing)
                         {
                             End_pos = new Vector3Int(pos(position.x), tg.y, pos(position.z));
+                            Destroy(Box_Start);
                             Boxing(Start_pos, End_pos);
                             boxing = false;
                         }
                         else
                         {
                             Start_pos = new Vector3Int(pos(position.x), tg.y, pos(position.z));
+                            Box_Start = Instantiate(TargetPrefab) as GameObject;
+                            Box_Start.transform.localPosition = cell[Start_pos.x, Start_pos.y, Start_pos.z].Pos;
                             boxing = true;
                         }
                     }
@@ -2230,57 +2327,7 @@ public class LifeGame : MonoBehaviour
                         }
                     }
                     break;
-                case "z+":/*
-                    if (!chenge_state)
-                    {
-                        if (cell[pos(position.x), pos(position.y), tg.z].life)
-                        {
-                            Destroy(cell[pos(position.x), pos(position.y), tg.z].obj);
-                            cell[pos(position.x), pos(position.y), tg.z].life = false;
-                            state[pos(position.x), pos(position.y), tg.z] = false;
-                            hush[pos(position.x), pos(position.y), tg.z, memory_time] = false;
-                            //chenge_state = false;
-                        }
-                    }
-                    else
-                    {
-                        if (!cell[pos(position.x), pos(position.y), tg.z].life)
-                        {
-                            cell[pos(position.x), pos(position.y), tg.z].obj = Instantiate(CellPrefab) as GameObject;
-                            cell[pos(position.x), pos(position.y), tg.z].obj.transform.localPosition = cell[pos(position.x), pos(position.y), tg.z].Pos;
-                            cell[pos(position.x), pos(position.y), tg.z].life = true;
-                            state[pos(position.x), pos(position.y), tg.z] = true;
-                            hush[pos(position.x), pos(position.y), tg.z, memory_time] = true;
-                            //chenge_state = true;
-                        }
-                        else
-                        {
-                            int i = 1;
-                            while (true)
-                            {
-                                if (cell[pos(position.x), pos(position.y), tg.z - i].life)
-                                {
-                                    if (tg.z - i > 0)
-                                    {
-                                        i++;
-                                    }
-                                    else
-                                    {
-                                        break;
-                                    }
-                                }
-                                else
-                                {
-                                    cell[pos(position.x), pos(position.y), tg.z - i].obj = Instantiate(CellPrefab) as GameObject;
-                                    cell[pos(position.x), pos(position.y), tg.z - i].obj.transform.localPosition = cell[pos(position.x), pos(position.y), tg.z - i].Pos;
-                                    cell[pos(position.x), pos(position.y), tg.z - i].life = true;
-                                    state[pos(position.x), pos(position.y), tg.z - i] = true;
-                                    hush[pos(position.x), pos(position.y), tg.z - i, memory_time] = true;
-                                    break;
-                                }
-                            }
-                        }                        
-                    }*/
+                case "z+":
                     if (mood == 0)
                     {
                         if (!chenge_state)
@@ -2339,12 +2386,15 @@ public class LifeGame : MonoBehaviour
                         if (boxing)
                         {
                             End_pos = new Vector3Int(pos(position.x), pos(position.y), tg.z);
+                            Destroy(Box_Start);
                             Boxing(Start_pos, End_pos);
                             boxing = false;
                         }
                         else
                         {
                             Start_pos = new Vector3Int(pos(position.x), pos(position.y), tg.z);
+                            Box_Start = Instantiate(TargetPrefab) as GameObject;
+                            Box_Start.transform.localPosition = cell[Start_pos.x, Start_pos.y, Start_pos.z].Pos;
                             boxing = true;
                         }
                     }
@@ -2363,57 +2413,7 @@ public class LifeGame : MonoBehaviour
                         }
                     }
                     break;
-                case "z-":/*
-                    if (!chenge_state)
-                    {
-                        if (cell[pos(position.x), pos(position.y), tg.z].life)
-                        {
-                            Destroy(cell[pos(position.x), pos(position.y), tg.z].obj);
-                            cell[pos(position.x), pos(position.y), tg.z].life = false;
-                            state[pos(position.x), pos(position.y), tg.z] = false;
-                            hush[pos(position.x), pos(position.y), tg.z, memory_time] = false;
-                            //chenge_state = false;
-                        }
-                    }
-                    else
-                    {
-                        if (!cell[pos(position.x), pos(position.y), tg.z].life)
-                        {
-                            cell[pos(position.x), pos(position.y), tg.z].obj = Instantiate(CellPrefab) as GameObject;
-                            cell[pos(position.x), pos(position.y), tg.z].obj.transform.localPosition = cell[pos(position.x), pos(position.y), tg.z].Pos;
-                            cell[pos(position.x), pos(position.y), tg.z].life = true;
-                            state[pos(position.x), pos(position.y), tg.z] = true;
-                            hush[pos(position.x), pos(position.y), tg.z, memory_time] = true;
-                            //chenge_state = true;
-                        }
-                        else
-                        {
-                            int i = 1;
-                            while (true)
-                            {
-                                if (cell[pos(position.x), pos(position.y), tg.z + i].life)
-                                {
-                                    if (tg.z + i < gridSize - 1)
-                                    {
-                                        i++;
-                                    }
-                                    else
-                                    {
-                                        break;
-                                    }
-                                }
-                                else
-                                {
-                                    cell[pos(position.x), pos(position.y), tg.z + i].obj = Instantiate(CellPrefab) as GameObject;
-                                    cell[pos(position.x), pos(position.y), tg.z + i].obj.transform.localPosition = cell[pos(position.x), pos(position.y), tg.z + i].Pos;
-                                    cell[pos(position.x), pos(position.y), tg.z + i].life = true;
-                                    state[pos(position.x), pos(position.y), tg.z + i] = true;
-                                    hush[pos(position.x), pos(position.y), tg.z + i, memory_time] = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }*/
+                case "z-":
                     if (mood == 0)
                     {
                         if (!chenge_state)
@@ -2472,12 +2472,15 @@ public class LifeGame : MonoBehaviour
                         if (boxing)
                         {
                             End_pos = new Vector3Int(pos(position.x), pos(position.y), tg.z);
+                            Destroy(Box_Start);
                             Boxing(Start_pos, End_pos);
                             boxing = false;
                         }
                         else
                         {
                             Start_pos = new Vector3Int(pos(position.x), pos(position.y), tg.z);
+                            Box_Start = Instantiate(TargetPrefab) as GameObject;
+                            Box_Start.transform.localPosition = cell[Start_pos.x, Start_pos.y, Start_pos.z].Pos;
                             boxing = true;
                         }
                     }
@@ -2498,84 +2501,14 @@ public class LifeGame : MonoBehaviour
                     break;
             }
             tapping = true;
-            ab.text = "tapping";            
         }
     }
-
 
     // air-tap の指を上げた時に呼ばれる
 
     private void InteractionSourceReleased(InteractionSourceReleasedEventArgs ev)
-    {/*
-        Vector3 position;
-        if (ev.state.sourcePose.TryGetPosition(out position))
-        {
-            
-            switch(direction)
-            {
-                case "x+":
-                    End_pos = new Vector3Int(tg.x, pos(position.y), pos(position.z));
-                    
-                    break;
-                case "x-":
-                    End_pos = new Vector3Int(tg.x, pos(position.y), pos(position.z));
-                    if (mood == 0)
-                    {
-                        Boxing(Start_pos, End_pos);
-                    }
-                    else if (mood == 1)
-                    {
-                        copy = Coping(Start_pos, End_pos);
-                    }
-                    break;
-                case "y+":
-                    End_pos = new Vector3Int(pos(position.x), tg.y, pos(position.z));
-                    if (mood == 0)
-                    {
-                        Boxing(Start_pos, End_pos);
-                    }
-                    else if (mood == 1)
-                    {
-                        copy = Coping(Start_pos, End_pos);
-                    }
-                    break;
-                case "y-":
-                    End_pos = new Vector3Int(pos(position.x), tg.y, pos(position.z));
-                    if (mood == 0)
-                    {
-                        Boxing(Start_pos, End_pos);
-                    }
-                    else if (mood == 1)
-                    {
-                        copy = Coping(Start_pos, End_pos);
-                    }
-                    break;
-                case "z+":
-                    End_pos = new Vector3Int(pos(position.x), pos(position.y), tg.z);
-                    if (mood == 0)
-                    {
-                        Boxing(Start_pos, End_pos);
-                    }
-                    else if (mood == 1)
-                    {
-                        copy = Coping(Start_pos, End_pos);
-                    }
-                    break;
-                case "z-":
-                    End_pos = new Vector3Int(pos(position.x), pos(position.y), tg.z);
-                    if (mood == 0)
-                    {
-                        Boxing(Start_pos, End_pos);
-                    }
-                    else if (mood == 1)
-                    {
-                        copy = Coping(Start_pos, End_pos);
-                    }
-                    break;
-            }            
-        }*/
+    {
         tapping = false;
-        ab.text = "";        
     }
     /*
     // 手が視界から外れた時に呼ばれる
@@ -2621,37 +2554,37 @@ public class LifeGame : MonoBehaviour
     {
         WSANativeFilePicker.PickSingleFile("Select", WSAPickerViewMode.Thumbnail, WSAPickerLocationId.PicturesLibrary, new[] { ".txt" }, result =>
         {
-            string fileString = "";
-            //string data = "";
+             //string data = "";
 
             if (result != null)
             {
+                byte[] fileBytes = result.ReadBytes();
 #pragma warning disable 0219
-                fileString = result.ReadText();
+                string fileString = result.ReadText();
 #pragma warning restore 0219
-            }
-            string num = "";
-            int[] new_rule = new int[5];
-            int purin = 0;
-            for (int i = 0; i < fileString.Length; i++)
-            {
-                if (fileString[i] >= '0' && fileString[i] <= '9')
+                string num = "";
+                int[] new_rule = new int[5];
+                int purin = 0;
+                for (int i = 0; i < fileString.Length; i++)
                 {
-                    num += fileString[i];
+                    if (fileString[i] >= '0' && fileString[i] <= '9')
+                    {
+                        num += fileString[i];
+                    }
+                    else if (fileString[i] == ',')
+                    {
+                        new_rule[purin] = int.Parse(num);
+                        purin++;
+                        num = "";
+                    }
+                    if (purin > 4)
+                    {
+                        rule = new_rule;
+                    }
                 }
-                else if (fileString[i] == ',')
-                {
-                    new_rule[purin] = int.Parse(num);
-                    purin++;
-                    num = "";
-                }
-                if (purin > 4)
-                {
-                    rule = new_rule;
-                }
-            }
+                ab.text = "[" + rule[0].ToString() + "," + rule[1].ToString() + "," + rule[2].ToString() + "," + rule[3].ToString() + "," + rule[4].ToString() + "]";
+            }            
         });
-        ab.text = "[" + rule[0].ToString() + "," + rule[1].ToString() + "," + rule[2].ToString() + "," + rule[3].ToString() + "," + rule[4].ToString() + "]";
     }
 
     private void Boxing(Vector3Int Start, Vector3Int End)
@@ -2771,7 +2704,7 @@ public class LifeGame : MonoBehaviour
                 {
                     for (int z = start_z; z <= end_z; z++)
                     {
-                        copy[x - start_x, y - start_y, z - start_y] = cell[x, y, z].life;
+                        copy[x - start_x, y - start_y, z - start_z] = cell[x, y, z].life;
                     }
                 }
             }

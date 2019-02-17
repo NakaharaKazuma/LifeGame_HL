@@ -148,6 +148,8 @@ MonoBehaviour:
   TargetPrefab: {fileID: 1772767156836102, guid: d05ac5e705e6a3942b9015a64de3cae3,
     type: 2}
   Target: {fileID: 0}
+  Cell_edit: {fileID: 2100000, guid: b97a92beb73f55f4e911ccb76934708c, type: 2}
+  Cell_box: {fileID: 2100000, guid: 05e099a4108a2cf4ab254f204d08c209, type: 2}
   X: {fileID: 1651393770989144, guid: cbd8cd0a108972e40b47bb352f7c1f75, type: 2}
   Y: {fileID: 1662151758795064, guid: 12c08925b254e9d41be2ff127794c91f, type: 2}
   Z: {fileID: 1493669112151692, guid: cabc34f454abb2746858e5c1e323d31e, type: 2}
@@ -637,7 +639,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1647841369}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 0.3, z: -1}
+  m_LocalPosition: {x: 0.5, y: 0.8, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

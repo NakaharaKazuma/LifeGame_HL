@@ -224,9 +224,14 @@ public class LifeGame : MonoBehaviour
                 {
                     boxing = false;
                     Destroy(Box_Start);
-                }                
-            }
-            chenge_state = !chenge_state;
+                } else
+                {
+                    chenge_state = !chenge_state;
+                }            
+            } else
+            {
+                chenge_state = !chenge_state;
+            }            
         }
 
         if (Input.GetKeyDown(KeyCode.Joystick1Button6) && active_Wall)
@@ -584,7 +589,7 @@ public class LifeGame : MonoBehaviour
                 Target.GetComponent<Renderer>().material = Cell_box;
             }/* else if (mood == 2)
             {
-                Target.GetComponent<Renderer>().material = Cell_01;
+                Target.GetComponent<Renderer>().material = Cell_edit;
             }*/
         }
 
@@ -958,9 +963,47 @@ public class LifeGame : MonoBehaviour
                                         {
                                             cell[a, b, c].obj = Instantiate(CellPrefab) as GameObject;
                                             cell[a, b, c].obj.transform.localPosition = cell[a, b, c].Pos;
-                                            if (c < tg.z && active_Wall)
+                                            if (active_Wall)
                                             {
-                                                cell[a, b, c].obj.GetComponent<Renderer>().material = Cell_02;
+                                                switch (direction)
+                                                {
+                                                    case "x+":
+                                                        if (x < tg.x)
+                                                        {
+                                                            cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                        }
+                                                        break;
+                                                    case "x-":
+                                                        if (x > tg.x)
+                                                        {
+                                                            cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                        }
+                                                        break;
+                                                    case "y+":
+                                                        if (y < tg.y)
+                                                        {
+                                                            cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                        }
+                                                        break;
+                                                    case "y-":
+                                                        if (y > tg.y)
+                                                        {
+                                                            cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                        }
+                                                        break;
+                                                    case "z+":
+                                                        if (z < tg.z)
+                                                        {
+                                                            cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                        }
+                                                        break;
+                                                    case "z-":
+                                                        if (z > tg.z)
+                                                        {
+                                                            cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                                        }
+                                                        break;
+                                                }
                                             }
                                         }
                                     }
@@ -2048,6 +2091,7 @@ public class LifeGame : MonoBehaviour
                         {
                             Start_pos = new Vector3Int(tg.x, pos(position.y), pos(position.z));
                             Box_Start = Instantiate(TargetPrefab) as GameObject;
+                            Box_Start.GetComponent<Renderer>().material = Cell_box;
                             Box_Start.transform.localPosition = cell[Start_pos.x, Start_pos.y, Start_pos.z].Pos;
                             boxing = true;
                         }
@@ -2134,6 +2178,7 @@ public class LifeGame : MonoBehaviour
                         {
                             Start_pos = new Vector3Int(tg.x, pos(position.y), pos(position.z));
                             Box_Start = Instantiate(TargetPrefab) as GameObject;
+                            Box_Start.GetComponent<Renderer>().material = Cell_box;
                             Box_Start.transform.localPosition = cell[Start_pos.x, Start_pos.y, Start_pos.z].Pos;
                             boxing = true;
                         }
@@ -2220,6 +2265,7 @@ public class LifeGame : MonoBehaviour
                         else
                         {
                             Start_pos = new Vector3Int(pos(position.x), tg.y, pos(position.z));
+                            Box_Start.GetComponent<Renderer>().material = Cell_box;
                             Box_Start = Instantiate(TargetPrefab) as GameObject;
                             Box_Start.transform.localPosition = cell[Start_pos.x, Start_pos.y, Start_pos.z].Pos;
                             boxing = true;
@@ -2308,6 +2354,7 @@ public class LifeGame : MonoBehaviour
                         {
                             Start_pos = new Vector3Int(pos(position.x), tg.y, pos(position.z));
                             Box_Start = Instantiate(TargetPrefab) as GameObject;
+                            Box_Start.GetComponent<Renderer>().material = Cell_box;
                             Box_Start.transform.localPosition = cell[Start_pos.x, Start_pos.y, Start_pos.z].Pos;
                             boxing = true;
                         }
@@ -2394,6 +2441,7 @@ public class LifeGame : MonoBehaviour
                         {
                             Start_pos = new Vector3Int(pos(position.x), pos(position.y), tg.z);
                             Box_Start = Instantiate(TargetPrefab) as GameObject;
+                            Box_Start.GetComponent<Renderer>().material = Cell_box;
                             Box_Start.transform.localPosition = cell[Start_pos.x, Start_pos.y, Start_pos.z].Pos;
                             boxing = true;
                         }
@@ -2480,6 +2528,7 @@ public class LifeGame : MonoBehaviour
                         {
                             Start_pos = new Vector3Int(pos(position.x), pos(position.y), tg.z);
                             Box_Start = Instantiate(TargetPrefab) as GameObject;
+                            Box_Start.GetComponent<Renderer>().material = Cell_box;
                             Box_Start.transform.localPosition = cell[Start_pos.x, Start_pos.y, Start_pos.z].Pos;
                             boxing = true;
                         }

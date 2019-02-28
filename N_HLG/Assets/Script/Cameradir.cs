@@ -7,7 +7,7 @@ public class Cameradir : MonoBehaviour
 {
 
     private const float CELL_SIZE = 0.025f;
-    public int gridSize = 108;
+    public int gridSize = 45;
 
     // Use this for initialization
     void Start()

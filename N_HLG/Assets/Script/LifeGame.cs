@@ -26,10 +26,13 @@ public class LifeGame : MonoBehaviour
 
     Pattern bugs;
 
+    Demopos Demo_pos;
+
     public UnityEngine.UI.Text Tag;
     public UnityEngine.UI.Text ab;
+    public UnityEngine.UI.Text s_t;
 
-    private const float CELL_SIZE = 0.015f;
+    private const float CELL_SIZE = 0.0045f;
 
     public GameObject CellPrefab;
     public Material Cell_01;
@@ -88,6 +91,8 @@ public class LifeGame : MonoBehaviour
 
     public bool active_Wall = true;
 
+    public bool demo = false;
+
     public Vector3Int tg;
 
     public Vector3Int Start_pos;
@@ -125,6 +130,8 @@ public class LifeGame : MonoBehaviour
     string fileString;
     string direction;
 
+    IEnumerator Democoroutine;
+
     // Use this for initialization
     void Start()
     {
@@ -132,12 +139,11 @@ public class LifeGame : MonoBehaviour
         InteractionManager.InteractionSourceUpdated += InteractionSourceUpdated;
         InteractionManager.InteractionSourcePressed += InteractionSourcePressed;
         InteractionManager.InteractionSourceReleased += InteractionSourceReleased;
-
-
         rule = new int[] { 4, 102, 133, 102, 142 };
 
         range = rule[0] * 2 + 1;
         bugs = new Pattern();
+        Demo_pos = new Demopos();
         tg = new Vector3Int(0, 0, 0);
         block = gridSize / range;
 
@@ -199,10 +205,15 @@ public class LifeGame : MonoBehaviour
         Wall_Y.SetActive(false);
         Wall_Z.SetActive(true);
 
-        ab.text = "[" + rule[0].ToString() + "," + rule[1].ToString() + "," + rule[2].ToString() + "," + rule[3].ToString() + "," + rule[4].ToString() + "]";
+        ab.text = "Rule [" + rule[0].ToString() + "," + rule[1].ToString() + "," + rule[2].ToString() + "," + rule[3].ToString() + "," + rule[4].ToString() + "]";
+        Tag.text = "(0,0,0)";
+        s_t.text = "Time 0";
 
         cameradir = new Cameradir();
         direction = cameradir.Cameradirection();
+
+        Democoroutine = Demo();
+
     }
 
     // Update is called once per frame
@@ -341,7 +352,7 @@ public class LifeGame : MonoBehaviour
                     }
                     break;
             }
-            Tag.text = "(" + tg.x.ToString() + ", " + tg.y.ToString() + ", " + tg.z.ToString() + ")";
+            //Tag.text = "(" + tg.x.ToString() + ", " + tg.y.ToString() + ", " + tg.z.ToString() + ")";
         }
 
         if (Input.GetKeyDown(KeyCode.Joystick1Button7) && active_Wall)
@@ -451,7 +462,7 @@ public class LifeGame : MonoBehaviour
                     }
                     break;
             }
-            Tag.text = "(" + tg.x.ToString() + ", " + tg.y.ToString() + ", " + tg.z.ToString() + ")";
+            //Tag.text = "(" + tg.x.ToString() + ", " + tg.y.ToString() + ", " + tg.z.ToString() + ")";
         }
 
         if (Input.GetKeyDown(KeyCode.Joystick1Button14))
@@ -534,8 +545,9 @@ public class LifeGame : MonoBehaviour
                         Wall_Z.SetActive(true);
                         break;
                 }
-            }
-            active_Wall = !active_Wall;
+                active_Wall = !active_Wall;
+                Target.SetActive(true);
+            }            
         }
 
         if (Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.Joystick1Button1))
@@ -545,7 +557,7 @@ public class LifeGame : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            Birth_bug(bugs.q0, bugs.q0_x, bugs.q0_y, bugs.q0_z, new int[] { 48, 48, 48 });
+            Birth_bug(bugs.q0, bugs.q0_x, bugs.q0_y, bugs.q0_z, new int[] { 15, 15, 15 });
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha8))
@@ -556,9 +568,9 @@ public class LifeGame : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            Birth_bug(bugs.p0, bugs.p0_x, bugs.p0_y, bugs.p0_z, new int[] { 48, 49, 48 });
-            Birth_bug(bugs.p0, bugs.p0_x, bugs.p0_y, bugs.p0_z, new int[] { 48, 49, 66 });
-            Birth_bug(bugs.bug, bugs.bug_x, bugs.bug_y, bugs.bug_z, new int[] { 61, 48, 58 });
+            Birth_bug(bugs.p0, bugs.p0_x, bugs.p0_y, bugs.p0_z, new int[] { 48, 34, 20 });
+            Birth_bug(bugs.p0, bugs.p0_x, bugs.p0_y, bugs.p0_z, new int[] { 48, 34, 38 });
+            Birth_bug(bugs.bug, bugs.bug_x, bugs.bug_y, bugs.bug_z, new int[] { 61, 33, 30 });
         }
 
         if (Input.GetKeyDown(KeyCode.H) || Input.GetKeyDown(KeyCode.Joystick1Button2))
@@ -574,7 +586,29 @@ public class LifeGame : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Joystick1Button3))
         {
-            pathting(Now_pos, copy);
+            if (demo)
+            {
+                StopAllCoroutines();
+                demo = false;
+                active_Wall = true;
+                if (!Wall_Z.activeSelf)
+                {
+                    Wall_Z.transform.localPosition = new Vector3(cell[gridSize - 1, 0, 0].Pos.x / 2, cell[0, gridSize - 1, 0].Pos.y / 2, cell[0, 0, tg.z].Pos.z);
+                    Wall_Z.SetActive(true);
+                }
+                Target.SetActive(true);
+            }
+            else
+            {
+                StartCoroutine(Demo());
+                demo = true;
+                active_Wall = false;
+                if (tg.z == 0)
+                {
+                    Wall_Z.SetActive(false);
+                }
+                Target.SetActive(false);
+            }
         }
         
         if (Input.GetKeyDown(KeyCode.Joystick1Button5))
@@ -591,6 +625,33 @@ public class LifeGame : MonoBehaviour
             {
                 Target.GetComponent<Renderer>().material = Cell_edit;
             }*/
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            if (demo)
+            {
+                StopAllCoroutines();
+                demo = false;
+                active_Wall = true;
+                if (!Wall_Z.activeSelf)
+                {
+                    Wall_Z.transform.localPosition = new Vector3(cell[gridSize - 1, 0, 0].Pos.x / 2, cell[0, gridSize - 1, 0].Pos.y / 2, cell[0, 0, tg.z].Pos.z);
+                    Wall_Z.SetActive(true);
+                }
+                Target.SetActive(true);
+            }
+            else
+            {
+                StartCoroutine(Demo());
+                demo = true;
+                active_Wall = false;
+                if (tg.z == 0)
+                {
+                    Wall_Z.SetActive(false);
+                }
+                Target.SetActive(false);
+            }
         }
 
         /*
@@ -767,7 +828,7 @@ public class LifeGame : MonoBehaviour
                 }
             }
         }
-
+        /*
         if (Input.GetKeyDown(KeyCode.LeftAlt))
         {
             System.Random rnd = new System.Random();
@@ -800,7 +861,7 @@ public class LifeGame : MonoBehaviour
                     }
                 }
             }
-        }
+        }*/
 
         /*
         if (active_Wall)
@@ -843,13 +904,183 @@ public class LifeGame : MonoBehaviour
 
     private IEnumerator LifeGameCoroutine()
     {
+        Scan();
         while (true)
-        {
-            Scan();
+        {            
             Upcell();
             time += 1;
             yield return new WaitForSeconds(0.03f);
         }
+    }
+
+    private IEnumerator Demo()
+    {
+        while (true)
+        {
+            Reset_cell();
+            Clean_cell();
+            tg.z = 0;
+            Wall_Z.transform.localPosition = new Vector3(cell[gridSize - 1, 0, 0].Pos.x / 2, cell[0, gridSize - 1, 0].Pos.y / 2, cell[0, 0, tg.z].Pos.z);
+            int v = 0;
+            int w = 0;
+            while (v <= 20)
+            {
+
+                int[,] dops;
+                s_t.text = "Time " + v.ToString();
+                switch (v)
+                {
+                    case 0:
+                        dops = Demo_pos.demo1;
+                        break;
+                    case 1:
+                        dops = Demo_pos.demo2;
+                        break;
+                    case 2:
+                        dops = Demo_pos.demo3;
+                        break;
+                    case 3:
+                        dops = Demo_pos.demo4;
+                        break;
+                    case 4:
+                        dops = Demo_pos.demo5;
+                        break;
+                    case 5:
+                        dops = Demo_pos.demo6;
+                        break;
+                    case 6:
+                        dops = Demo_pos.demo7;
+                        break;
+                    case 7:
+                        dops = Demo_pos.demo8;
+                        break;
+                    case 8:
+                        dops = Demo_pos.demo9;
+                        break;
+                    case 9:
+                        dops = Demo_pos.demo10;
+                        break;
+                    case 10:
+                        dops = Demo_pos.demo11;
+                        break;
+                    case 11:
+                        dops = Demo_pos.demo12;
+                        break;
+                    case 12:
+                        dops = Demo_pos.demo13;
+                        break;
+                    case 13:
+                        dops = Demo_pos.demo14;
+                        break;
+                    case 14:
+                        dops = Demo_pos.demo15;
+                        break;
+                    case 15:
+                        dops = Demo_pos.demo16;
+                        break;
+                    case 16:
+                        dops = Demo_pos.demo17;
+                        break;
+                    case 17:
+                        dops = Demo_pos.demo18;
+                        break;
+                    case 18:
+                        dops = Demo_pos.demo19;
+                        break;
+                    default:
+                        dops = Demo_pos.demo20;
+                        break;
+
+                }
+                for (int x = 0; x < 30; x++)
+                {
+                    for (int y = 0; y < 30; y++)
+                    {
+                        for (int z = 0; z < 30; z++)
+                        {
+                            if (w < dops.GetLength(0))
+                            {
+                                if ((dops[w, 0] - 44 == x && dops[w, 1] - 18 == y) && dops[w, 2] - 18 == z)
+                                {
+                                    if (!cell[x, y, z].life)
+                                    {
+                                        cell[x, y, z].obj = Instantiate(CellPrefab) as GameObject;
+                                        cell[x, y, z].obj.transform.localPosition = cell[x, y, z].Pos;
+                                        if (z < tg.z)
+                                        {
+                                            cell[x, y, z].obj.GetComponent<Renderer>().material = Cell_02;
+                                        }
+                                        cell[x, y, z].life = true;
+                                    }
+                                    //Debug.Log(w.ToString());
+                                    w++;
+                                }
+                                else
+                                {
+                                    if (cell[x, y, z].life)
+                                    {
+                                        Destroy(cell[x, y, z].obj);
+                                        cell[x, y, z].life = false;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (cell[x, y, z].life)
+                                {
+                                    Destroy(cell[x, y, z].obj);
+                                    cell[x, y, z].life = false;
+                                }
+                            }
+                        }
+                    }
+                }
+                w = 0;
+                if (v == 14)
+                {
+
+                    tg.z = 0;
+                    Wall_Z.transform.localPosition = new Vector3(cell[gridSize - 1, 0, 0].Pos.x / 2, cell[0, gridSize - 1, 0].Pos.y / 2, cell[0, 0, tg.z].Pos.z);
+                    if (!Wall_Z.activeSelf)
+                    {
+                        Wall_Z.SetActive(true);
+                    }
+                    while (tg.z <= 10)
+                    {
+                        if (tg.z < gridSize - 1)
+                        {
+                            Wall_Z.transform.position += new Vector3(0, 0, CELL_SIZE);
+                            for (int w_y = 0; w_y < gridSize; w_y++)
+                            {
+                                for (int w_x = 0; w_x < gridSize; w_x++)
+                                {
+                                    if (cell[w_x, w_y, tg.z].life)
+                                    {
+                                        cell[w_x, w_y, tg.z].obj.GetComponent<Renderer>().material = Cell_02;
+                                    }
+                                }
+                            }
+                            tg.z++;
+                        }
+                        yield return new WaitForSeconds(0.4f);
+                    }
+                }
+                v++;
+                yield return new WaitForSeconds(0.4f);
+            }
+            Clean_cell();
+            Reset_cell();
+            s_t.text = "Time 0";/*
+            active_Wall = true;
+            tg.z = 5;
+            Wall_Z.transform.localPosition = new Vector3(cell[gridSize - 1, 0, 0].Pos.x / 2, cell[0, gridSize - 1, 0].Pos.y / 2, cell[0, 0, tg.z].Pos.z);
+            if (!Wall_Z.activeSelf)
+            {
+                Wall_Z.SetActive(true);
+            }
+            Target.SetActive(true);*/
+        }
+        
     }
 
     private void Scan()
@@ -1572,6 +1803,8 @@ public class LifeGame : MonoBehaviour
         Wall_X.SetActive(false);
         Wall_Y.SetActive(false);
         Wall_Z.SetActive(false);
+        active_Wall = false;
+        Target.SetActive(false);
         //cell[tg.x, tg.y, tg.z].obj.layer = 0;
 
         //Wall.SetActive(false);
@@ -1623,7 +1856,7 @@ public class LifeGame : MonoBehaviour
     private void InteractionSourceUpdated(InteractionSourceUpdatedEventArgs ev)
     {
         Vector3 position;
-        if (ev.state.sourcePose.TryGetPosition(out position))
+        if (ev.state.sourcePose.TryGetPosition(out position) && active_Wall)
         {
             switch (direction)
             {
@@ -2014,6 +2247,7 @@ public class LifeGame : MonoBehaviour
 
             }
             pre_position = position;
+            Tag.text = "(" +Now_pos.x.ToString()+ "," + Now_pos.y.ToString() + ","+ Now_pos.z.ToString() + ")";
         }
     }
 
@@ -2025,7 +2259,7 @@ public class LifeGame : MonoBehaviour
             switch (direction)
             {
                 case "x+":
-                    if(mood == 0)
+                    if(mood == 0 && active_Wall)
                     {
                         if (!chenge_state)
                         {
@@ -2078,7 +2312,7 @@ public class LifeGame : MonoBehaviour
                                 }
                             }
                         }
-                    } else if(mood == 1)
+                    } else if(mood == 1 && active_Wall)
                     {
                         if (boxing)
                         {
@@ -2095,7 +2329,7 @@ public class LifeGame : MonoBehaviour
                             Box_Start.transform.localPosition = cell[Start_pos.x, Start_pos.y, Start_pos.z].Pos;
                             boxing = true;
                         }
-                    } else if(mood == 2)
+                    } else if(mood == 2 && active_Wall)
                     {
                         if (copying)
                         {
@@ -2111,7 +2345,7 @@ public class LifeGame : MonoBehaviour
                     }
                     break;
                 case "x-":
-                    if (mood == 0)
+                    if (mood == 0 && active_Wall)
                     {
                         if (!chenge_state)
                         {
@@ -2165,7 +2399,7 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    else if (mood == 1)
+                    else if (mood == 1 && active_Wall)
                     {
                         if (boxing)
                         {
@@ -2183,7 +2417,7 @@ public class LifeGame : MonoBehaviour
                             boxing = true;
                         }
                     }
-                    else if (mood == 2)
+                    else if (mood == 2 && active_Wall)
                     {
                         if (copying)
                         {
@@ -2199,7 +2433,7 @@ public class LifeGame : MonoBehaviour
                     }
                     break;
                 case "y+":
-                    if (mood == 0)
+                    if (mood == 0 && active_Wall)
                     {
                         if (!chenge_state)
                         {
@@ -2253,7 +2487,7 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    else if (mood == 1)
+                    else if (mood == 1 && active_Wall)
                     {
                         if (boxing)
                         {
@@ -2271,7 +2505,7 @@ public class LifeGame : MonoBehaviour
                             boxing = true;
                         }
                     }
-                    else if (mood == 2)
+                    else if (mood == 2 && active_Wall)
                     {
                         if (copying)
                         {
@@ -2287,7 +2521,7 @@ public class LifeGame : MonoBehaviour
                     }
                     break;
                 case "y-":
-                    if (mood == 0)
+                    if (mood == 0 && active_Wall)
                     {
                         if (!chenge_state)
                         {
@@ -2341,7 +2575,7 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    else if (mood == 1)
+                    else if (mood == 1 && active_Wall)
                     {
                         if (boxing)
                         {
@@ -2359,7 +2593,7 @@ public class LifeGame : MonoBehaviour
                             boxing = true;
                         }
                     }
-                    else if (mood == 2)
+                    else if (mood == 2 && active_Wall)
                     {
                         if (copying)
                         {
@@ -2375,7 +2609,7 @@ public class LifeGame : MonoBehaviour
                     }
                     break;
                 case "z+":
-                    if (mood == 0)
+                    if (mood == 0 && active_Wall)
                     {
                         if (!chenge_state)
                         {
@@ -2428,7 +2662,7 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    else if (mood == 1)
+                    else if (mood == 1 && active_Wall)
                     {
                         if (boxing)
                         {
@@ -2446,7 +2680,7 @@ public class LifeGame : MonoBehaviour
                             boxing = true;
                         }
                     }
-                    else if (mood == 2)
+                    else if (mood == 2 && active_Wall)
                     {
                         if (copying)
                         {
@@ -2462,7 +2696,7 @@ public class LifeGame : MonoBehaviour
                     }
                     break;
                 case "z-":
-                    if (mood == 0)
+                    if (mood == 0 && active_Wall)
                     {
                         if (!chenge_state)
                         {
@@ -2515,7 +2749,7 @@ public class LifeGame : MonoBehaviour
                             }
                         }
                     }
-                    else if (mood == 1)
+                    else if (mood == 1 && active_Wall)
                     {
                         if (boxing)
                         {
@@ -2533,7 +2767,7 @@ public class LifeGame : MonoBehaviour
                             boxing = true;
                         }
                     }
-                    else if (mood == 2)
+                    else if (mood == 2 && active_Wall)
                     {
                         if (copying)
                         {
@@ -2631,7 +2865,7 @@ public class LifeGame : MonoBehaviour
                         rule = new_rule;
                     }
                 }
-                ab.text = "[" + rule[0].ToString() + "," + rule[1].ToString() + "," + rule[2].ToString() + "," + rule[3].ToString() + "," + rule[4].ToString() + "]";
+                ab.text = "Rule [" + rule[0].ToString() + "," + rule[1].ToString() + "," + rule[2].ToString() + "," + rule[3].ToString() + "," + rule[4].ToString() + "]";
             }            
         });
     }
